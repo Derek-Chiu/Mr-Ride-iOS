@@ -11,51 +11,42 @@ import UIKit
 class SideMenuTableViewController: UITableViewController {
     
     var tableArray = [String]()
+    var currentSelected: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableArray = ["Home","History"]
-        
         setupNavigationBarAndTableView()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        tableView.bounces = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        tableView.selectRowAtIndexPath(currentSelected, animated: true, scrollPosition: .None)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return tableArray.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel?.text = tableArray[indexPath.row]
-        cell.textLabel?.textColor = UIColor.whiteColor()
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CellTableViewCell
+        cell.label.text = tableArray[indexPath.row]
+        
         return cell
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        let DestVC = segue.destinationViewController as! HomePageViewController
-//        
-//        let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow!
-//        DestVC.varView = indexPath.row
     }
     
     func setupNavigationBarAndTableView() {
@@ -66,6 +57,11 @@ class SideMenuTableViewController: UITableViewController {
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
     }
 
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        currentSelected = indexPath
+//        tableView.reloadData()
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

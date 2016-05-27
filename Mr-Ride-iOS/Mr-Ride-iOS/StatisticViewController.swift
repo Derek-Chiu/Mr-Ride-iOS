@@ -38,6 +38,7 @@ class StatisticViewController: UIViewController {
     func setupButton() {
         btnClose = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(dismissSelf))
         navigationItem.leftBarButtonItem = btnClose
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
     func dismissSelf(sender: AnyObject) {

@@ -13,6 +13,7 @@
 		65ABA3D41CF6D99D00171349 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65ABA3D31CF6D99D00171349 /* StatisticViewController.swift */; };
 		65AF9A391CF4215900345158 /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF9A381CF4215900345158 /* TrackingViewController.swift */; };
 		65BB95461CF5AB11000B1748 /* CellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */; };
+		65C2EC771CF7FCCA00B59893 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C2EC761CF7FCCA00B59893 /* HistoryViewController.swift */; };
 		65E4B5C31CF2A42F00EC288C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */; };
 		65E4B5C51CF2A42F00EC288C /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5C41CF2A42F00EC288C /* HomePageViewController.swift */; };
 		65E4B5C81CF2A42F00EC288C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65E4B5C61CF2A42F00EC288C /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 		65ABA3D31CF6D99D00171349 /* StatisticViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		65AF9A381CF4215900345158 /* TrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTableViewCell.swift; sourceTree = "<group>"; };
+		65C2EC761CF7FCCA00B59893 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		65E4B5BF1CF2A42F00EC288C /* Mr-Ride-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mr-Ride-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65E4B5C41CF2A42F00EC288C /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */,
 				65AF9A381CF4215900345158 /* TrackingViewController.swift */,
 				65ABA3D31CF6D99D00171349 /* StatisticViewController.swift */,
+				65C2EC761CF7FCCA00B59893 /* HistoryViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				65E4B5C31CF2A42F00EC288C /* AppDelegate.swift in Sources */,
 				65ABA3D41CF6D99D00171349 /* StatisticViewController.swift in Sources */,
 				65E4B5E51CF2F67C00EC288C /* Font.swift in Sources */,
+				65C2EC771CF7FCCA00B59893 /* HistoryViewController.swift in Sources */,
 				65E4B5CB1CF2A42F00EC288C /* Mr_Ride_iOS.xcdatamodeld in Sources */,
 				65E4B5DD1CF2E57500EC288C /* SWRevealViewController.m in Sources */,
 				65BB95461CF5AB11000B1748 /* CellTableViewCell.swift in Sources */,

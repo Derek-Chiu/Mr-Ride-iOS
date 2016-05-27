@@ -21,11 +21,6 @@ class HomePageViewController: UIViewController, ChartDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        setupNavigationItem()
-//        setupRevealViewController()
-//        setupTotalDistance()
-//        setupButton()
     }
 
   
@@ -35,6 +30,8 @@ class HomePageViewController: UIViewController, ChartDelegate {
     }
 
     override func viewWillAppear(animated: Bool) {
+        
+        setupBackground()
         setupNavigationItem()
         setupRevealViewController()
         setupTotalDistance()
@@ -55,16 +52,27 @@ class HomePageViewController: UIViewController, ChartDelegate {
         chart.addSeries(series)
     }
     
+
+    
+    func setupBackground() {
+        let layer = CALayer()
+        layer.frame = view.bounds
+        layer.backgroundColor = UIColor.mrLightblueColor().CGColor
+//        layer.opacity = 1.0
+//        layer.hidden = false
+        view.layer.insertSublayer(layer, atIndex: 0)
+    }
+    
     func setupNavigationItem() {
         let iconBike = UIImage(named: "icon-bike")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        self.navigationItem.titleView = UIImageView(image: iconBike)
-        self.navigationItem.titleView?.tintColor = UIColor.whiteColor()
+        navigationItem.titleView = UIImageView(image: iconBike)
+        navigationItem.titleView?.tintColor = UIColor.whiteColor()
         btnSideMenu.tintColor = UIColor.whiteColor()
         
         // let navigationvar shadow gone
         let shadowImg = UIImage()
-        self.navigationController?.navigationBar.shadowImage = shadowImg
-        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = shadowImg
+        navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
     }
     
     func setupTotalDistance() {
@@ -81,13 +89,12 @@ class HomePageViewController: UIViewController, ChartDelegate {
         btnLetsRide.layer.shadowRadius = 1.0
         btnLetsRide.layer.shadowOpacity = 0.5
         btnLetsRide.tintColor = UIColor.mrWaterBlueColor()
-        btnLetsRide.addTarget(self, action: #selector(toRidingPage), forControlEvents: UIControlEvents.TouchUpInside)
+        btnLetsRide.addTarget(self, action: #selector(toRiddingPage), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func toRidingPage() {
+    func toRiddingPage() {
         print("button pressed")
         let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("TrackingViewController") as! TrackingViewController
-//        trackingViewController.modalPresentationStyle = .OverCurrentContext
         let NaiVC = UINavigationController(rootViewController: trackingViewController)
         NaiVC.modalPresentationStyle = .OverCurrentContext
         
@@ -102,7 +109,7 @@ class HomePageViewController: UIViewController, ChartDelegate {
     func setupRevealViewController() {
         btnSideMenu.target = self.revealViewController()
         btnSideMenu.action = #selector(SWRevealViewController.revealToggle(_:))
-        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
     }
     
     // Chart delegate
@@ -120,7 +127,6 @@ class HomePageViewController: UIViewController, ChartDelegate {
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         // Redraw chart on rotation

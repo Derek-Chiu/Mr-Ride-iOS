@@ -21,6 +21,8 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
     var isRidding = false
     var btnCancel: UIBarButtonItem?
     var btnFinish: UIBarButtonItem?
+    var counter = 356395.0
+    var timer = NSTimer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +61,15 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
     }
     
     func setupTimer() {
-        labelTimer.text = "00:00:00"
+    
+        let minuteSecond = Int(counter % 1 * 100)
+        let second = Int(counter) % 60
+        let minutes = Int(counter / 60) % 60
+        let hours = Int(counter / 60 / 60) % 99
+//        print(minuteSecond)
+        labelTimer.text = String(format: "%d : %d : %d : %d", hours, minutes, second, minuteSecond)
+        counter = counter + 0.05
+//        print(counter)
     }
     
     func setupButton() {
@@ -69,8 +79,11 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
         
         btnCancel = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain , target: self , action: #selector(dismissSelf))
         btnFinish = UIBarButtonItem(title: "Finish", style: UIBarButtonItemStyle.Plain , target: self , action: #selector(finishRidding))
-        self.navigationItem.leftBarButtonItem = btnCancel
-        self.navigationItem.rightBarButtonItem = btnFinish
+        
+        navigationItem.leftBarButtonItem = btnCancel
+        navigationItem.rightBarButtonItem = btnFinish
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
     func setupMap() {
@@ -82,25 +95,28 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
         if isRidding {
             // stop them
             isRidding = false
+            timer.invalidate()
         } else {
+            // TODO
             // start calculating distance
             // start calculating avg speed
             // start calculating calories
             // start timmer
             // start tracking on map
             isRidding = true
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(setupTimer), userInfo: nil, repeats: true)
         }
         print("ridding " + "\(isRidding)")
     }
     
    func dismissSelf(sender: AnyObject) {
-        print("here")
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func finishRidding(sender: AnyObject) {
-        print("here")
-//        dismissViewControllerAnimated(true, completion: nil)
+        timer.invalidate()
+        // TODO
+        // save data to core data
         let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
         navigationController?.pushViewController(statisticViewController, animated: true)
     }

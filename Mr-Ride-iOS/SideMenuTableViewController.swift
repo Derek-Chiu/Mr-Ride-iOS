@@ -8,10 +8,16 @@
 
 import UIKit
 
+enum CurrentSelected: Int {
+    case HomePage
+    case HistoryPage
+}
+
 class SideMenuTableViewController: UITableViewController {
     
     var tableArray = [String]()
-    var currentSelected: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var currentIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var currentSelected = CurrentSelected.HomePage
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +31,7 @@ class SideMenuTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        tableView.selectRowAtIndexPath(currentSelected, animated: true, scrollPosition: .None)
+        tableView.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: .None)
     }
 
     // MARK: - Table view data source
@@ -51,16 +57,35 @@ class SideMenuTableViewController: UITableViewController {
     
     func setupNavigationBarAndTableView() {
         tableView.backgroundColor = UIColor.mrDarkSlateBlueColor()
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let shadowImg = UIImage()
-        self.navigationController?.navigationBar.shadowImage = shadowImg
-        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = shadowImg
+        navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        currentSelected = indexPath
-//        tableView.reloadData()
+        
+        currentIndexPath = indexPath
+        
+        switch indexPath.row {
+        case 0:
+            let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("HomeNavigationController") as! UINavigationController
+            
+            let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: trackingViewController)
+            segue.perform()
+//            revealViewController().setFrontViewController(trackingViewController, animated: true)
+        case 1:
+            let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("HistoryNavigationController") as! UINavigationController
+            let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: trackingViewController)
+            segue.perform()
+
+        default:
+            let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("HomeNavigationController") as! UINavigationController
+            revealViewController().setFrontViewController(trackingViewController, animated: true)
+        }
     }
+    
+    
     
     /*
     // Override to support conditional editing of the table view.

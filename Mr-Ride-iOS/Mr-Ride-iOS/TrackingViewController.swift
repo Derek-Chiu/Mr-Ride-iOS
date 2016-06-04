@@ -8,28 +8,40 @@
 
 import UIKit
 import MapKit
+import CoreData
+import CoreLocation
 
-class TrackingViewController: UIViewController, MKMapViewDelegate {
+protocol TrackingDelegate: class {
+    func dismissVC()
+}
 
-    @IBOutlet weak var mapView: MKMapView!
+class TrackingViewController: UIViewController {
+    
     @IBOutlet weak var labelCurrentDistance: UILabel!
-    @IBOutlet weak var labelAverageSpeed: UILabel!
+    @IBOutlet weak var labelSpeed: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelTimer: UILabel!
     @IBOutlet weak var btnStartAndPause: UIButton!
+    @IBOutlet weak var mapViewContainer: UIView!
+
+    weak var dismissDelegate: HomePageViewController?
+    
+    // temp
+    var managedObjectContext: NSManagedObjectContext?
     
     var isRidding = false
     var btnCancel: UIBarButtonItem?
     var btnFinish: UIBarButtonItem?
-    var counter = 356395.0
+    var counter = 0.0
     var timer = NSTimer()
+    var mapViewController = MapViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        mapViewController.loadView()
         setupBackground()
         setupDistance()
-        setupAvgSpeed()
+        setupSpeed()
         setupCalories()
         setupTimer()
         setupButton()
@@ -49,11 +61,11 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
     }
     
     func setupDistance() {
-        labelCurrentDistance.text = "distance!"
+        labelCurrentDistance.text = String(format: "%.2f km", mapViewController.distance / 1000)
     }
     
-    func setupAvgSpeed() {
-        labelAverageSpeed.text = "Avg Speed!"
+    func setupSpeed() {
+        labelSpeed.text = String(format: "%.2f m/s", mapViewController.distance / counter)
     }
     
     func setupCalories() {
@@ -61,15 +73,21 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
     }
     
     func setupTimer() {
-    
         let minuteSecond = Int(counter % 1 * 100)
         let second = Int(counter) % 60
         let minutes = Int(counter / 60) % 60
         let hours = Int(counter / 60 / 60) % 99
-//        print(minuteSecond)
-        labelTimer.text = String(format: "%d : %d : %d : %d", hours, minutes, second, minuteSecond)
+        //        print(minuteSecond)
+        labelTimer.text = String(format: "%02d:%02d:%02d.%02d", hours, minutes, second, minuteSecond)
         counter = counter + 0.05
-//        print(counter)
+        //        print(counter)
+    }
+    
+    func eachSecond() {
+        setupDistance()
+        setupSpeed()
+        setupCalories()
+        setupTimer()
     }
     
     func setupButton() {
@@ -87,8 +105,16 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
     }
     
     func setupMap() {
-        self.mapView.delegate = self
-        mapView.layer.cornerRadius = 10
+        
+        mapViewContainer.layer.cornerRadius = 10
+        mapViewController.view.frame = mapViewContainer.bounds
+        mapViewController.view.layer.cornerRadius = 10
+        mapViewController.view.clipsToBounds = true
+        self.addChildViewController(mapViewController)
+        mapViewContainer.addSubview(mapViewController.view)
+        mapViewController.didMoveToParentViewController(self)
+        
+//        mapViewController.beginAppearanceTransition(true, animated: true)
     }
     
     func startAndStopRidding() {
@@ -96,21 +122,22 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
             // stop them
             isRidding = false
             timer.invalidate()
+            mapViewController.locationManager.stopUpdatingLocation()
         } else {
-            // TODO
-            // start calculating distance
-            // start calculating avg speed
-            // start calculating calories
-            // start timmer
-            // start tracking on map
             isRidding = true
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(setupTimer), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(eachSecond), userInfo: nil, repeats: true)
+            // NSDate apply here
+            // GCD
+            mapViewController.locationManager.startUpdatingLocation()
         }
-        print("ridding " + "\(isRidding)")
+        
     }
     
-   func dismissSelf(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func dismissSelf(sender: AnyObject) {
+        timer.invalidate()
+        dismissDelegate?.dismissVC()
+        mapViewController.locationManager.stopUpdatingLocation()
+//        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func finishRidding(sender: AnyObject) {
@@ -118,6 +145,42 @@ class TrackingViewController: UIViewController, MKMapViewDelegate {
         // TODO
         // save data to core data
         let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
+        
+        let runID = NSUUID().UUIDString
+        savedRun(runID)
+        
+        statisticViewController.runID = runID
+        statisticViewController.dismissDelegate = dismissDelegate
         navigationController?.pushViewController(statisticViewController, animated: true)
+        mapViewController.locationManager.stopUpdatingLocation()
+    }
+    
+    func savedRun(runID: String) {
+        
+        let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: moc) as! Run
+        savedRun.id = runID
+        savedRun.distance = mapViewController.distance
+        savedRun.during = counter
+        savedRun.timestamp = NSDate()
+        
+        // 2
+        var savedLocations = [Location]()
+        for location in mapViewController.locations {
+            let savedLocation = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: moc) as! Location
+            savedLocation.id = runID
+            savedLocation.timestamp = location.timestamp
+            savedLocation.latitude = location.coordinate.latitude
+            savedLocation.longitude = location.coordinate.longitude
+            savedLocations.append(savedLocation)
+        }
+        
+        savedRun.location = NSOrderedSet(array: savedLocations)
+        
+        do {
+            try moc.save()
+        } catch let error as NSError {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+
     }
 }

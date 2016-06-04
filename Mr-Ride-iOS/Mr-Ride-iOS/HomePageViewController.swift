@@ -9,7 +9,7 @@
 import UIKit
 import SwiftChart
 
-class HomePageViewController: UIViewController, ChartDelegate {
+class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate {
 
 
     @IBOutlet weak var btnSideMenu: UIBarButtonItem!
@@ -18,6 +18,8 @@ class HomePageViewController: UIViewController, ChartDelegate {
     @IBOutlet weak var labelTotalCount: UILabel!
     @IBOutlet weak var labelAverageSpeed: UILabel!
     @IBOutlet weak var chart: Chart!
+    
+    var NaiVC = UINavigationController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,26 +32,12 @@ class HomePageViewController: UIViewController, ChartDelegate {
     }
 
     override func viewWillAppear(animated: Bool) {
-        
         setupBackground()
         setupNavigationItem()
         setupRevealViewController()
         setupTotalDistance()
         setupButton()
-        
-        chart.delegate = self
-        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8])
-        series.color = UIColor.mrWaterBlueColor()
-        series.area = true
-        series.line = false
-        chart.userInteractionEnabled = false
-        chart.backgroundColor = UIColor.mrLightblueColor()
-        chart.areaAlphaComponent = 0.5
-        chart.gridColor = UIColor.clearColor()
-        chart.axesColor = UIColor.clearColor()
-        chart.labelColor = UIColor.clearColor()
-        chart.bottomInset = 0
-        chart.addSeries(series)
+        setupChart()
     }
     
 
@@ -95,9 +83,9 @@ class HomePageViewController: UIViewController, ChartDelegate {
     func toRiddingPage() {
         print("button pressed")
         let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("TrackingViewController") as! TrackingViewController
-        let NaiVC = UINavigationController(rootViewController: trackingViewController)
+        NaiVC = UINavigationController(rootViewController: trackingViewController)
         NaiVC.modalPresentationStyle = .OverCurrentContext
-        
+        trackingViewController.dismissDelegate = self
         btnLetsRide.hidden = true
         labelTotalCount.hidden = true
         labelAverageSpeed.hidden = true
@@ -110,6 +98,22 @@ class HomePageViewController: UIViewController, ChartDelegate {
         btnSideMenu.target = self.revealViewController()
         btnSideMenu.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+    }
+    
+    func setupChart()  {
+        chart.delegate = self
+        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8, 14, 3, 16, 5, 7, 4, 5, 2])
+        series.color = UIColor.mrWaterBlueColor()
+        series.area = true
+        series.line = false
+        chart.userInteractionEnabled = false
+        chart.backgroundColor = UIColor.mrLightblueColor()
+        chart.areaAlphaComponent = 0.5
+        chart.gridColor = UIColor.clearColor()
+        chart.axesColor = UIColor.clearColor()
+        chart.labelColor = UIColor.clearColor()
+        chart.bottomInset = 0
+        chart.addSeries(series)
     }
     
     // Chart delegate
@@ -128,10 +132,19 @@ class HomePageViewController: UIViewController, ChartDelegate {
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
         // Redraw chart on rotation
         chart.setNeedsDisplay()
         
+    }
+    
+    // TrackingDelegate
+    func dismissVC() {
+        NaiVC.dismissViewControllerAnimated(true, completion: nil)
+        // get data from core data and refresh home page info
+        btnLetsRide.hidden = false
+        labelTotalCount.hidden = false
+        labelAverageSpeed.hidden = false
+        labelTotalDistance.hidden = false
     }
 
 }

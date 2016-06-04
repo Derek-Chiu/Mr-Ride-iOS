@@ -10,17 +10,32 @@ import UIKit
 
 class StatisticViewController: UIViewController {
     
+    
+    @IBOutlet weak var labelTotalDistance: UILabel!
+    @IBOutlet weak var labelAvgSpeed: UILabel!
+    @IBOutlet weak var labelCalories: UILabel!
+    @IBOutlet weak var labelTotalTime: UILabel!
+    @IBOutlet weak var mapViewContainer: UIView!
+    
     var btnClose: UIBarButtonItem?
+    var distance = 0.0
+    var duringTime = 0.0
+    var locations = []
+    var mapViewController = MapViewController()
+    var runID = "";
+    
+    weak var dismissDelegate: HomePageViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
         setupButton()
+        setupMap()
+        setupData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setupBackground() {
@@ -36,23 +51,61 @@ class StatisticViewController: UIViewController {
     }
     
     func setupButton() {
+        // if from tracking page then button is "close", otherwise button is "back" as default
+        if dismissDelegate != nil {
         btnClose = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(dismissSelf))
-        navigationItem.leftBarButtonItem = btnClose
+            navigationItem.leftBarButtonItem = btnClose
+        }
         navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
+    func setupData() {
+        // get from core data
+        
+        guard let run = LocationRecorder.getData(runID) else {
+            print("no this run data in database")
+            return
+        }
+        
+        // setup labels data from last page (tracking page)
+        // labelTotalDistance
+        labelTotalDistance.text = String(format: "%.2f km", Double(run.distance!) / 1000)
+        // labelAvgSpeed
+        labelAvgSpeed.text = String(format: "%.2f km / h", Double(run.distance!) / Double(run.during!))
+        // labelCalories
+        labelCalories.text = String(0)
+        // labelTotalTime
+        guard let counter = run.during as? Double else {
+            return
+        }
+        
+        let minuteSecond = Int(counter % 1 * 100)
+        let second = Int(counter) % 60
+        let minutes = Int(counter / 60) % 60
+        let hours = Int(counter / 60 / 60) % 99
+        //        print(minuteSecond)
+        labelTotalTime.text = String(format: "%02d:%02d:%02d.%02d", hours, minutes, second, minuteSecond)
+        
+        run.location?.array
+    }
+    
+    func setupMap() {
+        
+        mapViewContainer.layer.cornerRadius = 10
+        mapViewController.view.frame = mapViewContainer.bounds
+        mapViewController.view.layer.cornerRadius = 10
+        mapViewController.view.clipsToBounds = true
+        self.addChildViewController(mapViewController)
+        mapViewContainer.addSubview(mapViewController.view)
+        mapViewController.didMoveToParentViewController(self)
+        
+        //        mapViewController.beginAppearanceTransition(true, animated: true)
+    }
+    
     func dismissSelf(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        if dismissDelegate != nil {
+            dismissDelegate?.dismissVC()
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

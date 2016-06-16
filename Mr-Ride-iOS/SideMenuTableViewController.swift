@@ -8,107 +8,86 @@
 
 import UIKit
 
+enum CurrentSelected: Int {
+    case HomePage
+    case HistoryPage
+}
+
 class SideMenuTableViewController: UITableViewController {
     
     var tableArray = [String]()
-
+    var currentIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var currentSelected = CurrentSelected.HomePage
+    
+    enum PageSelected: Int {
+        case HomePage
+        case HistroyPage
+        case MapPage
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableArray = ["Home","History"]
-        
+        tableArray = ["Home", "History", "Map"]
         setupNavigationBarAndTableView()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        tableView.bounces = false
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: .None)
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return tableArray.count
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel?.text = tableArray[indexPath.row]
-        cell.textLabel?.textColor = UIColor.whiteColor()
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CellTableViewCell
+        cell.label.text = tableArray[indexPath.row]
+        
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        let DestVC = segue.destinationViewController as! HomePageViewController
-//        
-//        let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow!
-//        DestVC.varView = indexPath.row
-    }
     
     func setupNavigationBarAndTableView() {
         tableView.backgroundColor = UIColor.mrDarkSlateBlueColor()
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let shadowImg = UIImage()
-        self.navigationController?.navigationBar.shadowImage = shadowImg
-        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = shadowImg
+        navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        currentIndexPath = indexPath
+        
+        if let page = PageSelected(rawValue: indexPath.row) {
+            switch page {
+            case .HomePage:
+                let homeNavigationController = storyboard?.instantiateViewControllerWithIdentifier("HomeNavigationController") as! UINavigationController
+                
+                let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: homeNavigationController)
+                segue.perform()
+                
+            case .HistroyPage:
+                let historyNavigationController = storyboard?.instantiateViewControllerWithIdentifier("HistoryNavigationController") as! UINavigationController
+                let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: historyNavigationController)
+                segue.perform()
+                
+            case .MapPage:
+                // show map page
+                print("show map page")
+            }
+            
+        } else {
+            print("no such page")
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

@@ -7,12 +7,19 @@
 //
 
 import UIKit
-import SwiftChart
+import Charts
 
-class HistoryViewController: UIViewController, ChartDelegate {
+protocol CellSelectedDelegate: class {
+    func cellDidSelected(runID: String)
+}
+
+class HistoryViewController: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var btnSideMenu: UIBarButtonItem!
-    @IBOutlet weak var chart: Chart!
+    @IBOutlet weak var tableviewContainer: UIView!
+    @IBOutlet weak var chartView: LineChartView!
+    
+    let historyTableViewController = HistoryTableViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +29,7 @@ class HistoryViewController: UIViewController, ChartDelegate {
         setupButton()
         setupRevealViewController()
         setupChart()
+        setupHistoryTable()
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,39 +83,38 @@ class HistoryViewController: UIViewController, ChartDelegate {
     }
     
     func setupChart() {
-        chart.delegate = self
-        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8])
-        series.color = UIColor.mrWaterBlueColor()
-        series.area = true
-        series.line = false
-        chart.userInteractionEnabled = false
-        chart.backgroundColor = UIColor.mrLightblueColor()
-        chart.areaAlphaComponent = 0.5
-//        chart.gridColor = UIColor.clearColor()
-        chart.axesColor = UIColor.clearColor()
-        chart.labelColor = UIColor.clearColor()
-        chart.bottomInset = 0
-        chart.addSeries(series)
+        chartView.delegate = self
+//        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8])
+//        series.color = UIColor.mrWaterBlueColor()
+//        series.area = true
+//        series.line = false
+//        chart.userInteractionEnabled = false
+//        chart.backgroundColor = UIColor.mrLightblueColor()
+//        chart.areaAlphaComponent = 0.5
+////        chart.gridColor = UIColor.clearColor()
+//        chart.axesColor = UIColor.clearColor()
+//        chart.labelColor = UIColor.clearColor()
+//        chart.bottomInset = 0
+//        chart.addSeries(series)
     }
     
-    // Chart delegate
-    
-    func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
-        for (seriesIndex, dataIndex) in indexes.enumerate() {
-            if let value = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {
-                print("Touched series: \(seriesIndex): data index: \(dataIndex!); series value: \(value); x-axis value: \(x) (from left: \(left))")
-            }
-        }
+    func setupHistoryTable() {
+        historyTableViewController.selectedDelegate = self
+        historyTableViewController.view.frame = tableviewContainer.bounds
+        historyTableViewController.view.backgroundColor = UIColor.clearColor()
+        self.addChildViewController(historyTableViewController)
+        tableviewContainer.addSubview(historyTableViewController.view)
+        historyTableViewController.didMoveToParentViewController(self)
     }
     
-    func didFinishTouchingChart(chart: Chart) {
-        
+}
+
+extension HistoryViewController: CellSelectedDelegate {
+
+    func cellDidSelected(runID: String) {
+        let statisticViewController = self.storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
+        statisticViewController.runID = runID
+        self.navigationController?.pushViewController(statisticViewController, animated: true)
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        // Redraw chart on rotation
-        chart.setNeedsDisplay()
-    }
 }

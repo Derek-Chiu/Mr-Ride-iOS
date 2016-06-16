@@ -12,7 +12,7 @@ import MapKit
 class MapViewController: UIViewController {
 
     var distance = 0.0
-    var mapView: MKMapView!
+    weak var mapView: MKMapView!
     var locations = [CLLocation]()
     
     lazy var locationManager: CLLocationManager = {
@@ -26,27 +26,20 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print("viewDidLoad")
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        print("viewWillAppear")
         mapView = MKMapView()
         mapView.showsUserLocation = true
         mapView.delegate = self
         setupMapView()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-//        print("viewDidAppear")
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         mapView = nil
     }
     
@@ -63,13 +56,16 @@ class MapViewController: UIViewController {
         
 //        mapView.bindFrameToSuperviewBounds()
     }
-
+    
+    deinit {
+        print("deinit mapviewcontroller")
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
+    
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-//            print("drawing")
             let renderer = MKPolylineRenderer(polyline: polyline)
             renderer.strokeColor = UIColor.blueColor()
             renderer.lineWidth = 3
@@ -78,10 +74,10 @@ extension MapViewController: MKMapViewDelegate {
             return MKOverlayRenderer()
         }
     }
-    
 }
 
 extension MapViewController: CLLocationManagerDelegate {
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
 //            print("updating")
@@ -102,9 +98,57 @@ extension MapViewController: CLLocationManagerDelegate {
             }
         }
     }
-    
+
 }
 
+// MARK: -
+extension MapViewController {
+    
+    func loadMap(run: Run) {
+        if run.location!.count > 0 {
+            //set the map bounds
+            mapView.showsUserLocation = false
+            mapView.region = mapRegion(run)
+            
+            var coords = [CLLocationCoordinate2D]()
+            
+            let locations = run.location!.array as! [Location]
+            for location in locations {
+                coords.append(CLLocationCoordinate2D(latitude:  location.latitude!.doubleValue, longitude: location.longitude!.doubleValue))
+            }
+            mapView.addOverlay(MKPolyline(coordinates: &coords, count: coords.count))
+        } else {
+//            UIAlertView(title: "Error", message: "Sorry, this run has no locations saved", delegate: nil, cancelButtonTitle: "OK").show()
+        }
+    }
+
+    func mapRegion(run: Run) -> MKCoordinateRegion {
+        
+        let initialLoc = run.location!.firstObject as! Location
+        
+        var minLat = initialLoc.latitude!.doubleValue
+        var minLng = initialLoc.longitude!.doubleValue
+        var maxLat = minLat
+        var maxLng = minLng
+        
+        let locations = run.location!.array as! [Location]
+        
+        for location in locations {
+            minLat = min(minLat, location.latitude!.doubleValue)
+            minLng = min(minLng, location.longitude!.doubleValue)
+            maxLat = max(maxLat, location.latitude!.doubleValue)
+            maxLng = max(maxLng, location.longitude!.doubleValue)
+        }
+        
+        return MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2, longitude: (minLng + maxLng) / 2),
+            span: MKCoordinateSpan(latitudeDelta: (maxLat - minLat) * 1.1, longitudeDelta: (maxLng - minLng) * 1.1)
+        )
+    }
+
+}
+
+// MARK: - UI extension
 
 extension UIView {
     

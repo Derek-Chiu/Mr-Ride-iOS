@@ -7,17 +7,15 @@
 //
 
 import UIKit
-import SwiftChart
+import Charts
 
-class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate {
-
-
+class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDelegate {
     @IBOutlet weak var btnSideMenu: UIBarButtonItem!
     @IBOutlet weak var btnLetsRide: UIButton!
     @IBOutlet weak var labelTotalDistance: UILabel!
     @IBOutlet weak var labelTotalCount: UILabel!
     @IBOutlet weak var labelAverageSpeed: UILabel!
-    @IBOutlet weak var chart: Chart!
+    @IBOutlet weak var chartView: LineChartView!
     
     var NaiVC = UINavigationController()
     
@@ -25,13 +23,13 @@ class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate 
         super.viewDidLoad()
     }
 
-  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         setupBackground()
         setupNavigationItem()
         setupRevealViewController()
@@ -39,8 +37,6 @@ class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate 
         setupButton()
         setupChart()
     }
-    
-
     
     func setupBackground() {
         let layer = CALayer()
@@ -81,16 +77,11 @@ class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate 
     }
     
     func toRiddingPage() {
-        print("button pressed")
         let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("TrackingViewController") as! TrackingViewController
         NaiVC = UINavigationController(rootViewController: trackingViewController)
         NaiVC.modalPresentationStyle = .OverCurrentContext
         trackingViewController.dismissDelegate = self
-        btnLetsRide.hidden = true
-        labelTotalCount.hidden = true
-        labelAverageSpeed.hidden = true
-        labelTotalDistance.hidden = true
-        
+        for subview in view.subviews where subview is UILabel { subview.hidden = true }
         presentViewController(NaiVC, animated: true, completion: nil)
     }
     
@@ -101,50 +92,85 @@ class HomePageViewController: UIViewController, ChartDelegate, TrackingDelegate 
     }
     
     func setupChart()  {
-        chart.delegate = self
-        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8, 14, 3, 16, 5, 7, 4, 5, 2])
-        series.color = UIColor.mrWaterBlueColor()
-        series.area = true
-        series.line = false
-        chart.userInteractionEnabled = false
-        chart.backgroundColor = UIColor.mrLightblueColor()
-        chart.areaAlphaComponent = 0.5
-        chart.gridColor = UIColor.clearColor()
-        chart.axesColor = UIColor.clearColor()
-        chart.labelColor = UIColor.clearColor()
-        chart.bottomInset = 0
-        chart.addSeries(series)
+        chartView.backgroundColor = UIColor.mrLightblueColor()
+        chartView.userInteractionEnabled = false
+        
+        chartView.delegate = self
+        
+        chartView.dragEnabled = false
+        chartView.setScaleEnabled(false)
+        chartView.pinchZoomEnabled = false
+        
+        chartView.drawGridBackgroundEnabled = false
+        chartView.rightAxis.enabled = false
+        chartView.leftAxis.enabled = false
+        chartView.xAxis.enabled = false
+        
+        chartView.legend.enabled = false
+        
+        chartView.minOffset = 0
+        
+        
+        
+        chartView.descriptionText = ""
+        
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
+        
+        setChart(months, values: unitsSold)
+        
+//        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8, 14, 3, 16, 5, 7, 4, 5, 2])
+//        series.color = UIColor.mrWaterBlueColor()
+//        series.area = true
+//        series.line = false
+//        chart.userInteractionEnabled = false
+//        chart.backgroundColor = UIColor.mrLightblueColor()
+//        chart.areaAlphaComponent = 0.5
+//        chart.gridColor = UIColor.clearColor()
+//        chart.axesColor = UIColor.clearColor()
+//        chart.labelColor = UIColor.clearColor()
+//        chart.bottomInset = 0
+//        chart.addSeries(series)
     }
     
-    // Chart delegate
-    
-    func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
-        for (seriesIndex, dataIndex) in indexes.enumerate() {
-            if let value = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {
-                print("Touched series: \(seriesIndex): data index: \(dataIndex!); series value: \(value); x-axis value: \(x) (from left: \(left))")
-            }
+    func setChart(dataPoints: [String], values: [Double]) {
+        
+        var dataEntries: [BarChartDataEntry] = []
+        
+        for i in 0..<dataPoints.count {
+            let dataEntry = BarChartDataEntry(value: values[i], xIndex: i)
+            dataEntries.append(dataEntry)
         }
-    }
-    
-    func didFinishTouchingChart(chart: Chart) {
+        
+        let chartDataSet = LineChartDataSet(yVals: dataEntries, label: "")
+        chartDataSet.mode = .CubicBezier
+        chartDataSet.cubicIntensity = 0.3
+        chartDataSet.drawCirclesEnabled = false
+        chartDataSet.setColor(UIColor.clearColor())
+        chartDataSet.drawValuesEnabled = false
+        
+        
+        let color1 = UIColor.mrLightblueColor()
+        let color2 = UIColor.mrPineGreen50Color()
+        let gradient = CAGradientLayer()
+        gradient.frame = chartView.bounds
+        gradient.colors = [color1.CGColor, color2.CGColor]
+        
+        chartDataSet.drawFilledEnabled = true
+        chartDataSet.fillAlpha = 0.5
+        chartDataSet.fill = ChartFill.fillWithColor(UIColor.mrWaterBlueColor())
+
+        let chartData = LineChartData(xVals: dataPoints, dataSet: chartDataSet)
+        chartView.data = chartData
         
     }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        // Redraw chart on rotation
-        chart.setNeedsDisplay()
-        
-    }
-    
+
     // TrackingDelegate
     func dismissVC() {
         NaiVC.dismissViewControllerAnimated(true, completion: nil)
         // get data from core data and refresh home page info
-        btnLetsRide.hidden = false
-        labelTotalCount.hidden = false
-        labelAverageSpeed.hidden = false
-        labelTotalDistance.hidden = false
+        
+        for subview in view.subviews where subview is UILabel { subview.hidden = false }
     }
 
 }

@@ -24,7 +24,7 @@ class TrackingViewController: UIViewController {
     @IBOutlet weak var btnStartAndPause: UIButton!
     @IBOutlet weak var mapViewContainer: UIView!
 
-    weak var dismissDelegate: HomePageViewController?
+    weak var dismissDelegate: TrackingDelegate?
     
     // temp
     var managedObjectContext: NSManagedObjectContext?
@@ -34,23 +34,38 @@ class TrackingViewController: UIViewController {
     var btnFinish: UIBarButtonItem?
     var counter = 0.0
     var timer = NSTimer()
-    var mapViewController = MapViewController()
+    let mapViewController = MapViewController()
+    
+    let middleIcon = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        mapViewController.loadView()
+        setupMap()
         setupBackground()
         setupDistance()
         setupSpeed()
         setupCalories()
         setupTimer()
         setupButton()
-        setupMap()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("viewWillDisappear TrackingViewController")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("viewDidDisappear TrackingViewController")
+    }
+    
+    deinit {
+        print("deinit TrackingViewController")
     }
     
     func setupBackground() {
         let color1 = UIColor.mrBlack60Color()
-        let color2 = UIColor.whiteColor()
+        let color2 = UIColor.mrBlack40Color()
         let gradient = CAGradientLayer()
         gradient.frame = self.view.frame
         gradient.colors = [color1.CGColor, color2.CGColor]
@@ -93,7 +108,18 @@ class TrackingViewController: UIViewController {
     func setupButton() {
         btnStartAndPause.addTarget(self, action: #selector(startAndStopRidding), forControlEvents: UIControlEvents.TouchUpInside)
         btnStartAndPause.layer.cornerRadius = btnStartAndPause.frame.size.width / 2
+        btnStartAndPause.layer.borderColor = UIColor.whiteColor().CGColor
+        btnStartAndPause.layer.borderWidth = 3.0
+        btnStartAndPause.backgroundColor = UIColor.clearColor()
         btnStartAndPause.clipsToBounds = true
+       
+        middleIcon.frame.size = CGSize(width: 30, height: 30)
+
+        middleIcon.userInteractionEnabled = false
+        middleIcon.backgroundColor = UIColor.redColor()
+        middleIcon.center = CGPoint(x: btnStartAndPause.bounds.width / 2, y: btnStartAndPause.bounds.height / 2)
+        btnStartAndPause.addSubview(middleIcon)
+        
         
         btnCancel = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain , target: self , action: #selector(dismissSelf))
         btnFinish = UIBarButtonItem(title: "Finish", style: UIBarButtonItemStyle.Plain , target: self , action: #selector(finishRidding))
@@ -105,7 +131,6 @@ class TrackingViewController: UIViewController {
     }
     
     func setupMap() {
-        
         mapViewContainer.layer.cornerRadius = 10
         mapViewController.view.frame = mapViewContainer.bounds
         mapViewController.view.layer.cornerRadius = 10
@@ -113,8 +138,6 @@ class TrackingViewController: UIViewController {
         self.addChildViewController(mapViewController)
         mapViewContainer.addSubview(mapViewController.view)
         mapViewController.didMoveToParentViewController(self)
-        
-//        mapViewController.beginAppearanceTransition(true, animated: true)
     }
     
     func startAndStopRidding() {
@@ -123,46 +146,67 @@ class TrackingViewController: UIViewController {
             isRidding = false
             timer.invalidate()
             mapViewController.locationManager.stopUpdatingLocation()
+            
+            UIView.animateWithDuration(0.6){
+                self.middleIcon.transform = CGAffineTransformMakeScale(1 , 1)
+                self.middleIcon.layer.cornerRadius = (self.middleIcon.frame.width) / 2
+            }
+            
+            UIView.animateWithDuration(0.6,delay: 0.0,options: .TransitionFlipFromLeft, animations:{
+                self.middleIcon.transform = CGAffineTransformMakeScale(1, 1)
+                },completion: { (isFinished) in
+                    self.addIconCornerRadiusAnimation( 10, to: (self.middleIcon.frame.width) / 2, duration: 0.3)
+            })
+
+            
         } else {
             isRidding = true
             timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(eachSecond), userInfo: nil, repeats: true)
             // NSDate apply here
             // GCD
             mapViewController.locationManager.startUpdatingLocation()
+            
+            
+            UIView.animateWithDuration(0.6,delay: 0.0,options: .TransitionFlipFromLeft, animations:{
+                self.middleIcon.transform = CGAffineTransformMakeScale(1, 1)
+                },completion: { (isFinished) in
+                    self.addIconCornerRadiusAnimation( (self.middleIcon.frame.width) / 2, to: 10, duration: 0.3)
+            })
         }
         
     }
     
     func dismissSelf(sender: AnyObject) {
         timer.invalidate()
-        dismissDelegate?.dismissVC()
         mapViewController.locationManager.stopUpdatingLocation()
-//        dismissViewControllerAnimated(true, completion: nil)
+        dismissDelegate?.dismissVC()
     }
     
     func finishRidding(sender: AnyObject) {
         timer.invalidate()
-        // TODO
-        // save data to core data
-        let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
-        
         let runID = NSUUID().UUIDString
         savedRun(runID)
         
+        let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
         statisticViewController.runID = runID
         statisticViewController.dismissDelegate = dismissDelegate
         navigationController?.pushViewController(statisticViewController, animated: true)
         mapViewController.locationManager.stopUpdatingLocation()
     }
     
+    
     func savedRun(runID: String) {
+        
+//        let date = NSDate()
+        let days = -30.0
+        let date = NSDate.init(timeIntervalSinceNow: 86400.00 * days)
         
         let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: moc) as! Run
         savedRun.id = runID
         savedRun.distance = mapViewController.distance
         savedRun.during = counter
-        savedRun.timestamp = NSDate()
-        
+//        savedRun.timestamp = NSDate()
+        savedRun.timestamp = date
         // 2
         var savedLocations = [Location]()
         for location in mapViewController.locations {
@@ -183,4 +227,17 @@ class TrackingViewController: UIViewController {
         }
 
     }
+    
+    func addIconCornerRadiusAnimation(from: CGFloat, to: CGFloat, duration: CFTimeInterval)
+    {
+        let animation = CABasicAnimation(keyPath:"cornerRadius")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = duration
+        self.middleIcon.layer.addAnimation(animation, forKey: "cornerRadius")
+        self.middleIcon.layer.cornerRadius = to
+    }
+    
+    
 }

@@ -15,6 +15,29 @@
 		<string>RobotoMono-Thin.ttf</string>
 		<string>RobotoMono-ThinItalic.ttf</string>
 	</array>
+    <!-- start facebook part -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb1616771368636806</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1616771368636806</string>
+    <key>FacebookDisplayName</key>
+    <string>Mr.Ride</string>
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    <!-- end facebook part -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Mr.Ride wants to track your location</string>
 	<key>NSlocationAlwaysUsageDescription</key>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class StatisticViewController: UIViewController {
     
@@ -23,14 +24,21 @@ class StatisticViewController: UIViewController {
     var locations = []
     var mapViewController = MapViewController()
     var runID = "";
-    
-    weak var dismissDelegate: HomePageViewController?
+    weak var dismissDelegate: TrackingDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
         setupButton()
         setupMap()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         setupData()
     }
 
@@ -40,12 +48,13 @@ class StatisticViewController: UIViewController {
     
     func setupBackground() {
         let color1 = UIColor.mrBlack60Color()
-        let color2 = UIColor.whiteColor()
+        let color2 = UIColor.mrBlack40Color()
         let gradient = CAGradientLayer()
         gradient.frame = self.view.frame
         gradient.colors = [color1.CGColor, color2.CGColor]
-        self.view.layer.insertSublayer(gradient, atIndex: 0)
+        view.layer.insertSublayer(gradient, atIndex: 0)
         view.backgroundColor = UIColor.clearColor()
+        view.opaque = false
         navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
         navigationController?.navigationBar.translucent = false
     }
@@ -56,13 +65,14 @@ class StatisticViewController: UIViewController {
         btnClose = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(dismissSelf))
             navigationItem.leftBarButtonItem = btnClose
         }
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
     
     func setupData() {
         // get from core data
+        let locationRecorder = LocationRecorder.getInstance()
         
-        guard let run = LocationRecorder.getData(runID) else {
+        guard let run = locationRecorder.getDataWithID(runID) else {
             print("no this run data in database")
             return
         }
@@ -71,7 +81,7 @@ class StatisticViewController: UIViewController {
         // labelTotalDistance
         labelTotalDistance.text = String(format: "%.2f km", Double(run.distance!) / 1000)
         // labelAvgSpeed
-        labelAvgSpeed.text = String(format: "%.2f km / h", Double(run.distance!) / Double(run.during!))
+        labelAvgSpeed.text = String(format: "%.2f km / h", Double(run.distance!) * 3.6 / Double(run.during!) )
         // labelCalories
         labelCalories.text = String(0)
         // labelTotalTime
@@ -83,14 +93,13 @@ class StatisticViewController: UIViewController {
         let second = Int(counter) % 60
         let minutes = Int(counter / 60) % 60
         let hours = Int(counter / 60 / 60) % 99
-        //        print(minuteSecond)
         labelTotalTime.text = String(format: "%02d:%02d:%02d.%02d", hours, minutes, second, minuteSecond)
         
-        run.location?.array
+        mapViewController.loadMap(run)
+        
     }
     
     func setupMap() {
-        
         mapViewContainer.layer.cornerRadius = 10
         mapViewController.view.frame = mapViewContainer.bounds
         mapViewController.view.layer.cornerRadius = 10
@@ -98,14 +107,15 @@ class StatisticViewController: UIViewController {
         self.addChildViewController(mapViewController)
         mapViewContainer.addSubview(mapViewController.view)
         mapViewController.didMoveToParentViewController(self)
-        
-        //        mapViewController.beginAppearanceTransition(true, animated: true)
     }
     
     func dismissSelf(sender: AnyObject) {
         if dismissDelegate != nil {
             dismissDelegate?.dismissVC()
         }
+        
+        mapViewController.removeFromParentViewController()
     }
+    
 
 }

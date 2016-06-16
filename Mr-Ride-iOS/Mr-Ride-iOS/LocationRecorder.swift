@@ -12,7 +12,9 @@ import CoreData
 
 class LocationRecorder {
     
-    class func getData(runID: String) -> Run? {
+    
+    
+    func getDataWithID(runID: String) -> Run? {
         let request = NSFetchRequest(entityName: "Run")
         do {
             let results = try moc.executeFetchRequest(request) as! [Run]
@@ -26,5 +28,33 @@ class LocationRecorder {
             print(error)
         }
         return nil
+    }
+    
+    func fetchData() -> [Run]? {
+        let request = NSFetchRequest(entityName: "Run")
+        do {
+            request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+            let results = try moc.executeFetchRequest(request) as! [Run]
+            return results
+        } catch let error as NSError {
+            print(error)
+        }
+        return nil
+    }
+    
+    
+}
+
+extension LocationRecorder {
+    
+    static var locationRecorder: LocationRecorder?
+    
+    static func getInstance() -> LocationRecorder {
+        
+        if locationRecorder == nil {
+            locationRecorder = LocationRecorder()
+        }
+        
+        return locationRecorder!
     }
 }

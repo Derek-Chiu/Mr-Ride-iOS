@@ -84,8 +84,16 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-Mr-Ride-iOS/SwiftChart.framework"
+  install_framework "Pods-Mr-Ride-iOS/Alamofire.framework"
+  install_framework "Pods-Mr-Ride-iOS/Bolts.framework"
+  install_framework "Pods-Mr-Ride-iOS/Charts.framework"
+  install_framework "Pods-Mr-Ride-iOS/FBSDKCoreKit.framework"
+  install_framework "Pods-Mr-Ride-iOS/FBSDKLoginKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-Mr-Ride-iOS/SwiftChart.framework"
+  install_framework "Pods-Mr-Ride-iOS/Alamofire.framework"
+  install_framework "Pods-Mr-Ride-iOS/Bolts.framework"
+  install_framework "Pods-Mr-Ride-iOS/Charts.framework"
+  install_framework "Pods-Mr-Ride-iOS/FBSDKCoreKit.framework"
+  install_framework "Pods-Mr-Ride-iOS/FBSDKLoginKit.framework"
 fi

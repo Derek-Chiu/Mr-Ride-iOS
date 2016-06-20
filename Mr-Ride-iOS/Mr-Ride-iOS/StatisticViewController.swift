@@ -110,11 +110,13 @@ class StatisticViewController: UIViewController {
     }
     
     func dismissSelf(sender: AnyObject) {
+        mapViewController.removeFromParentViewController()
         if dismissDelegate != nil {
+            dismissViewControllerAnimated(true, completion: nil)
             dismissDelegate?.dismissVC()
+            dismissDelegate = nil
         }
         
-        mapViewController.removeFromParentViewController()
     }
     
 

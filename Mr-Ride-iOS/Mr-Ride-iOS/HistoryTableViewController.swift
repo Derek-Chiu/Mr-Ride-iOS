@@ -14,7 +14,10 @@ class HistoryTableViewController: UITableViewController {
     var allRecord = [Run]()
     var sectionByMonth = [NSDateComponents: [Run]]()
     var keyOfMonth = [NSDateComponents]()
+    var currentSection = -1
+    
     weak var selectedDelegate: CellSelectedDelegate?
+    weak var chartDataSource: ChartDataSource?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,8 @@ class HistoryTableViewController: UITableViewController {
         
         tableView.registerNib(UINib(nibName: "HistoryTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         tableView.frame = view.bounds
+        
+        fetchData()
     
     }
 
@@ -34,29 +39,6 @@ class HistoryTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        //  fetct core data and get new record
-        print("fetch new data")
-        
-        if LocationRecorder.getInstance().fetchData() != nil {
-            allRecord = LocationRecorder.getInstance().fetchData()!
-        } else {
-            print("no record")
-        }
-        
-        for run in allRecord {
-            let currentComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month], fromDate: run.timestamp!)
-            
-            if sectionByMonth[currentComponents] != nil {
-                sectionByMonth[currentComponents]?.append(run)
-            } else {
-                sectionByMonth[currentComponents] = [run]
-                keyOfMonth.append(currentComponents)
-            }
-        }
-        
-    }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -78,6 +60,13 @@ class HistoryTableViewController: UITableViewController {
         
         let run = sectionByMonth[keyOfMonth[indexPath.section]]![indexPath.row]
         
+        if currentSection != indexPath.section {
+            print("section number == \(indexPath.section)")
+            chartDataSource!.setupChartData(sectionByMonth[keyOfMonth[indexPath.section]]!)
+            currentSection = indexPath.section
+        }
+        
+        
         cell.backgroundColor = UIColor.mrDarkSlateBlue85Color()
         cell.runID = run.id!
         cell.labelDistance.text = String(format: "%.2f km", Double(run.distance!) / 1000)
@@ -92,6 +81,28 @@ class HistoryTableViewController: UITableViewController {
             cell.labelTime.text = String(format: "%02d:%02d:%02d", hours, minutes, second)
         }
         return cell
+    }
+    
+    func fetchData() {
+        
+        print("fetchData")
+        
+        if LocationRecorder.getInstance().fetchData() != nil {
+            allRecord = LocationRecorder.getInstance().fetchData()!
+        } else {
+            print("no record")
+        }
+        
+        for run in allRecord {
+            let currentComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month], fromDate: run.timestamp!)
+            
+            if sectionByMonth[currentComponents] != nil {
+                sectionByMonth[currentComponents]?.append(run)
+            } else {
+                sectionByMonth[currentComponents] = [run]
+                keyOfMonth.append(currentComponents)
+            }
+        }
     }
     
     // MARK: - Header part

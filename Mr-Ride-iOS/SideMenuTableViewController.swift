@@ -81,8 +81,10 @@ class SideMenuTableViewController: UITableViewController {
                 segue.perform()
                 
             case .MapPage:
-                // show map page
-                print("show map page")
+                let informationNavigationController = storyboard?.instantiateViewControllerWithIdentifier("InformationNavigationController") as! UINavigationController
+                let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: informationNavigationController)
+                segue.perform()
+
             }
             
         } else {

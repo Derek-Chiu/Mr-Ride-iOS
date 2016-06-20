@@ -158,14 +158,12 @@ class TrackingViewController: UIViewController {
                     self.addIconCornerRadiusAnimation( 10, to: (self.middleIcon.frame.width) / 2, duration: 0.3)
             })
 
-            
         } else {
             isRidding = true
             timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(eachSecond), userInfo: nil, repeats: true)
             // NSDate apply here
             // GCD
             mapViewController.locationManager.startUpdatingLocation()
-            
             
             UIView.animateWithDuration(0.6,delay: 0.0,options: .TransitionFlipFromLeft, animations:{
                 self.middleIcon.transform = CGAffineTransformMakeScale(1, 1)
@@ -180,6 +178,8 @@ class TrackingViewController: UIViewController {
         timer.invalidate()
         mapViewController.locationManager.stopUpdatingLocation()
         dismissDelegate?.dismissVC()
+        dismissViewControllerAnimated(true, completion: nil)
+        dismissDelegate = nil
     }
     
     func finishRidding(sender: AnyObject) {

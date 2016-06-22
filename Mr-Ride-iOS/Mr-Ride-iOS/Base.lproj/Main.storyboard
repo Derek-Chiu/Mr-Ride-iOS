@@ -296,7 +296,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Look for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N24-Kh-muK">
                                         <rect key="frame" x="267" y="12" width="65" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -823,7 +823,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLq-LC-1DW">
-                                <rect key="frame" x="40" y="532" width="520" height="48"/>
+                                <rect key="frame" x="20" y="532" width="560" height="48"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rb4-w1-JEx">
                                         <rect key="frame" x="101" y="0.0" width="2" height="48"/>
@@ -839,7 +839,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uk3-Ct-8wq">
-                                        <rect key="frame" x="0.0" y="6" width="520" height="36"/>
+                                        <rect key="frame" x="0.0" y="6" width="560" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Ubike Station">
                                             <color key="titleColor" red="0.054901960780000002" green="0.20784313730000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -864,12 +864,24 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3kn-Ib-UbN">
+                                <rect key="frame" x="20" y="84" width="560" height="431"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.CornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.84313725490000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1pj-rJ-FIg" firstAttribute="top" secondItem="gLq-LC-1DW" secondAttribute="bottom" constant="20" id="5nY-Ab-h4i"/>
-                            <constraint firstItem="gLq-LC-1DW" firstAttribute="leading" secondItem="xfQ-UW-2PM" secondAttribute="leadingMargin" constant="20" id="CMp-ws-gwc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gLq-LC-1DW" secondAttribute="trailing" constant="20" id="Nds-q3-NFK"/>
+                            <constraint firstItem="gLq-LC-1DW" firstAttribute="leading" secondItem="xfQ-UW-2PM" secondAttribute="leadingMargin" id="CMp-ws-gwc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gLq-LC-1DW" secondAttribute="trailing" id="Nds-q3-NFK"/>
+                            <constraint firstItem="3kn-Ib-UbN" firstAttribute="leading" secondItem="xfQ-UW-2PM" secondAttribute="leadingMargin" id="TKu-lq-OPX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3kn-Ib-UbN" secondAttribute="trailing" id="lFt-xZ-si7"/>
+                            <constraint firstItem="3kn-Ib-UbN" firstAttribute="top" secondItem="66f-L7-8Q1" secondAttribute="bottom" constant="20" id="uYi-bm-dGa"/>
+                            <constraint firstItem="gLq-LC-1DW" firstAttribute="top" secondItem="3kn-Ib-UbN" secondAttribute="bottom" constant="17" id="wEb-30-vQg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bi9-hB-Ky6">
@@ -878,6 +890,7 @@
                     <connections>
                         <outlet property="btnPicker" destination="Uk3-Ct-8wq" id="Jgv-y9-K8X"/>
                         <outlet property="btnSideMenu" destination="GWo-R8-ETb" id="f8K-fV-5Qt"/>
+                        <outlet property="mapView" destination="3kn-Ib-UbN" id="TNv-t3-kFx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HAK-TJ-2Rc" userLabel="First Responder" sceneMemberID="firstResponder"/>

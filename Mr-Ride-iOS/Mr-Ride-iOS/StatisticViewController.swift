@@ -114,7 +114,6 @@ class StatisticViewController: UIViewController {
         if dismissDelegate != nil {
             dismissViewControllerAnimated(true, completion: nil)
             dismissDelegate?.dismissVC()
-            dismissDelegate = nil
         }
         
     }

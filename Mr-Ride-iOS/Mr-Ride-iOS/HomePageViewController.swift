@@ -71,10 +71,10 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         btnLetsRide.layer.shadowRadius = 1.0
         btnLetsRide.layer.shadowOpacity = 0.5
         btnLetsRide.tintColor = UIColor.mrWaterBlueColor()
-        btnLetsRide.addTarget(self, action: #selector(toRiddingPage), forControlEvents: UIControlEvents.TouchUpInside)
+        btnLetsRide.addTarget(self, action: #selector(toTrackingPage), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func toRiddingPage() {
+    func toTrackingPage() {
         let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("TrackingViewController") as! TrackingViewController
         let NaiVC = UINavigationController(rootViewController: trackingViewController)
         NaiVC.modalPresentationStyle = .OverCurrentContext

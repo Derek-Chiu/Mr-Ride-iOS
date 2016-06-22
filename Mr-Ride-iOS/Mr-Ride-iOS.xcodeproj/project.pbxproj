@@ -26,6 +26,7 @@
 		6546F0761CFEC89000F3CB85 /* LocationRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6546F0751CFEC89000F3CB85 /* LocationRecorder.swift */; };
 		655537361D1280B6004848F7 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655537351D1280B6004848F7 /* HttpHelper.swift */; };
 		655537381D128DDE004848F7 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655537371D128DDE004848F7 /* InformationViewController.swift */; };
+		655C68331D19011000941C68 /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655C68321D19011000941C68 /* Toilet.swift */; };
 		659095F01D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */; };
 		659096151D017C4800054FA9 /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */; };
 		659096161D017C4800054FA9 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096121D017C4800054FA9 /* Run.swift */; };
@@ -83,6 +84,7 @@
 		6546F0751CFEC89000F3CB85 /* LocationRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationRecorder.swift; sourceTree = "<group>"; };
 		655537351D1280B6004848F7 /* HttpHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		655537371D128DDE004848F7 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		655C68321D19011000941C68 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
 		659095EF1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Mr-Ride-iOS.xcdatamodel"; sourceTree = "<group>"; };
 		659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		659096121D017C4800054FA9 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				65E4B5D71CF2A4FF00EC288C /* Controller */,
 				659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */,
 				659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */,
+				655C68321D19011000941C68 /* Toilet.swift */,
 				659096121D017C4800054FA9 /* Run.swift */,
 				659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */,
 				659096141D017C4800054FA9 /* Location.swift */,
@@ -385,6 +388,7 @@
 				65E4B5C51CF2A42F00EC288C /* HomePageViewController.swift in Sources */,
 				65AF9A391CF4215900345158 /* TrackingViewController.swift in Sources */,
 				65E4B5C31CF2A42F00EC288C /* AppDelegate.swift in Sources */,
+				655C68331D19011000941C68 /* Toilet.swift in Sources */,
 				659096181D017C4800054FA9 /* Location.swift in Sources */,
 				65ABA3D41CF6D99D00171349 /* StatisticViewController.swift in Sources */,
 				659096151D017C4800054FA9 /* Run+CoreDataProperties.swift in Sources */,

@@ -82,8 +82,7 @@ class HttpHelper {
                     let toilet = Toilet(name: name, address: address, latitude: latitude, longitude: longitude)
                     self.toiletList.append(toilet)
                 }
-                
-                print(self.toiletList.count)
+
                 
                 dispatch_async(dispatch_get_main_queue()){
                 

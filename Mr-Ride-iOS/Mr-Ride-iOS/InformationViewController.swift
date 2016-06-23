@@ -131,6 +131,15 @@ extension InformationViewController: MKMapViewDelegate {
 //        mapView.setRegion(region, animated: true)
         
     }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let pinView = MKAnnotationView()
+    
+        
+        pinView.image = UIImage(named: "icon-toilet")
+//        pinView.canShowCallout = true
+        return pinView
+    }
 
 }
 

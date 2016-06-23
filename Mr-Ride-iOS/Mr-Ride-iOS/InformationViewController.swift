@@ -26,6 +26,17 @@ class InformationViewController: UIViewController, UIViewControllerTransitioning
         return _locationManager
     }()
 
+    var currentSelected = PickerOption.UbikeStation
+    var icon: UIImage {
+        get {
+            switch currentSelected {
+            case .UbikeStation:
+                return UIImage(named: "icon-bike")!
+            default:
+                return UIImage(named: "icon-toilet")!
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,11 +103,13 @@ extension InformationViewController: PickerDelegate {
     func pickerselected(selected: PickerOption) {
         switch selected {
         case .UbikeStation:
-            //show UbikeStation on map
-            print("UbikeStation")
+            currentSelected = selected
+            
+            btnPicker.titleLabel?.text = "Ubike Station"
         case .Toliet:
-            // show toliet on map
-            print("Toliet")
+            currentSelected = selected
+            
+            btnPicker.titleLabel?.text = "Toilet"
             HttpHelper.getInstance().getToilet() { [unowned self] in
                 self.loadingFinished()
             }
@@ -133,11 +146,8 @@ extension InformationViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let pinView = MKAnnotationView()
-    
-        
-        pinView.image = UIImage(named: "icon-toilet")
-//        pinView.canShowCallout = true
+        let pinView = CustomAnnotationView()
+        pinView.setCustomImage(icon)
         return pinView
     }
 

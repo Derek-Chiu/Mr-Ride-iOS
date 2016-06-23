@@ -51,16 +51,16 @@ class TrackingViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        print("viewWillDisappear TrackingViewController")
+        print("viewWillDisappear \(self.dynamicType)")
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        print("viewDidDisappear TrackingViewController")
+        print("viewDidDisappear \(self.dynamicType)")
     }
     
     deinit {
-        print("deinit TrackingViewController")
+        print("deinit \(self.dynamicType)")
     }
     
     func setupBackground() {
@@ -158,14 +158,12 @@ class TrackingViewController: UIViewController {
                     self.addIconCornerRadiusAnimation( 10, to: (self.middleIcon.frame.width) / 2, duration: 0.3)
             })
 
-            
         } else {
             isRidding = true
             timer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(eachSecond), userInfo: nil, repeats: true)
             // NSDate apply here
             // GCD
             mapViewController.locationManager.startUpdatingLocation()
-            
             
             UIView.animateWithDuration(0.6,delay: 0.0,options: .TransitionFlipFromLeft, animations:{
                 self.middleIcon.transform = CGAffineTransformMakeScale(1, 1)
@@ -178,8 +176,11 @@ class TrackingViewController: UIViewController {
     
     func dismissSelf(sender: AnyObject) {
         timer.invalidate()
+        mapViewController.removeFromParentViewController()
         mapViewController.locationManager.stopUpdatingLocation()
         dismissDelegate?.dismissVC()
+        dismissViewControllerAnimated(true, completion: nil)
+//        dismissDelegate = nil
     }
     
     func finishRidding(sender: AnyObject) {
@@ -187,7 +188,7 @@ class TrackingViewController: UIViewController {
         let runID = NSUUID().UUIDString
         savedRun(runID)
         
-        let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("statisticViewController") as! StatisticViewController
+        let statisticViewController = storyboard?.instantiateViewControllerWithIdentifier("StatisticViewController") as! StatisticViewController
         statisticViewController.runID = runID
         statisticViewController.dismissDelegate = dismissDelegate
         navigationController?.pushViewController(statisticViewController, animated: true)

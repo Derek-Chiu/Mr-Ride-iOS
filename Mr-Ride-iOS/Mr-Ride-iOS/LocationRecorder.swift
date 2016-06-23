@@ -12,8 +12,6 @@ import CoreData
 
 class LocationRecorder {
     
-    
-    
     func getDataWithID(runID: String) -> Run? {
         let request = NSFetchRequest(entityName: "Run")
         do {
@@ -41,7 +39,6 @@ class LocationRecorder {
         }
         return nil
     }
-    
     
 }
 

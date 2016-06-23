@@ -17,8 +17,6 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
     @IBOutlet weak var labelAverageSpeed: UILabel!
     @IBOutlet weak var chartView: LineChartView!
     
-    var NaiVC = UINavigationController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -73,12 +71,12 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         btnLetsRide.layer.shadowRadius = 1.0
         btnLetsRide.layer.shadowOpacity = 0.5
         btnLetsRide.tintColor = UIColor.mrWaterBlueColor()
-        btnLetsRide.addTarget(self, action: #selector(toRiddingPage), forControlEvents: UIControlEvents.TouchUpInside)
+        btnLetsRide.addTarget(self, action: #selector(toTrackingPage), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func toRiddingPage() {
+    func toTrackingPage() {
         let trackingViewController = storyboard?.instantiateViewControllerWithIdentifier("TrackingViewController") as! TrackingViewController
-        NaiVC = UINavigationController(rootViewController: trackingViewController)
+        let NaiVC = UINavigationController(rootViewController: trackingViewController)
         NaiVC.modalPresentationStyle = .OverCurrentContext
         trackingViewController.dismissDelegate = self
         for subview in view.subviews where subview is UILabel { subview.hidden = true }
@@ -110,8 +108,6 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         
         chartView.minOffset = 0
         
-        
-        
         chartView.descriptionText = ""
         
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -119,18 +115,6 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         
         setChart(months, values: unitsSold)
         
-//        let series = ChartSeries([0, 6, 2, 8, 4, 7, 3, 10, 8, 14, 3, 16, 5, 7, 4, 5, 2])
-//        series.color = UIColor.mrWaterBlueColor()
-//        series.area = true
-//        series.line = false
-//        chart.userInteractionEnabled = false
-//        chart.backgroundColor = UIColor.mrLightblueColor()
-//        chart.areaAlphaComponent = 0.5
-//        chart.gridColor = UIColor.clearColor()
-//        chart.axesColor = UIColor.clearColor()
-//        chart.labelColor = UIColor.clearColor()
-//        chart.bottomInset = 0
-//        chart.addSeries(series)
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -167,9 +151,7 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
 
     // TrackingDelegate
     func dismissVC() {
-        NaiVC.dismissViewControllerAnimated(true, completion: nil)
-        // get data from core data and refresh home page info
-        
+        // after presented viewcontroller dismissed
         for subview in view.subviews where subview is UILabel { subview.hidden = false }
     }
 

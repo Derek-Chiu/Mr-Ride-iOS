@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 class CustomAnnotationView: MKAnnotationView {
-    
+
     func setCustomImage(originImage: UIImage){
         self.frame.size.height = originImage.size.height * 2
         self.frame.size.width = originImage.size.width * 2

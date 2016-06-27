@@ -274,12 +274,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHp-ZM-oqG">
-                                <rect key="frame" x="0.0" y="384" width="600" height="216"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="216" id="Ke3-Qi-FWC"/>
-                                </constraints>
-                            </pickerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PSH-8q-j48">
                                 <rect key="frame" x="0.0" y="340" width="600" height="44"/>
                                 <subviews>
@@ -319,6 +313,17 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHp-ZM-oqG">
+                                <rect key="frame" x="0.0" y="384" width="600" height="216"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="216" id="Ke3-Qi-FWC"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -872,25 +877,88 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="spC-vK-5xG">
+                                <rect key="frame" x="20" y="387" width="560" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="McDonald's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agb-lv-WSj">
+                                        <rect key="frame" x="20" y="37" width="520" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLc-0x-tb8">
+                                        <rect key="frame" x="20" y="20" width="44" height="12"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
+                                        <color key="textColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 mins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoW-kj-od2">
+                                        <rect key="frame" x="508" y="20" width="32" height="12"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
+                                        <color key="textColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mKi-d7-yIU">
+                                        <rect key="frame" x="20" y="71" width="47" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.054901960780000002" green="0.20784313730000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="aLc-0x-tb8" firstAttribute="leading" secondItem="spC-vK-5xG" secondAttribute="leading" constant="20" id="8mZ-lu-EDo"/>
+                                    <constraint firstItem="mKi-d7-yIU" firstAttribute="leading" secondItem="Agb-lv-WSj" secondAttribute="leading" id="CKa-bu-PhW"/>
+                                    <constraint firstItem="Agb-lv-WSj" firstAttribute="leading" secondItem="aLc-0x-tb8" secondAttribute="leading" id="KTc-fF-jOA"/>
+                                    <constraint firstItem="mKi-d7-yIU" firstAttribute="top" secondItem="Agb-lv-WSj" secondAttribute="bottom" constant="5" id="XaL-ye-BaJ"/>
+                                    <constraint firstItem="aLc-0x-tb8" firstAttribute="top" secondItem="spC-vK-5xG" secondAttribute="top" constant="20" id="aAw-Nz-uKu"/>
+                                    <constraint firstItem="Agb-lv-WSj" firstAttribute="trailing" secondItem="FoW-kj-od2" secondAttribute="trailing" id="e4F-z7-lOZ"/>
+                                    <constraint firstItem="Agb-lv-WSj" firstAttribute="top" secondItem="aLc-0x-tb8" secondAttribute="bottom" constant="5" id="l74-jw-paQ"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Agb-lv-WSj" secondAttribute="trailing" constant="413" id="oR0-Te-ub5"/>
+                                    <constraint firstItem="FoW-kj-od2" firstAttribute="top" secondItem="spC-vK-5xG" secondAttribute="top" constant="20" id="rJW-mW-nAa"/>
+                                    <constraint firstAttribute="height" constant="128" id="rXh-oh-L4F"/>
+                                    <constraint firstAttribute="trailing" secondItem="FoW-kj-od2" secondAttribute="trailing" constant="20" id="vSB-DU-4YM"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="oR0-Te-ub5"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.38823529410000002" green="0.84313725490000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="1pj-rJ-FIg" firstAttribute="top" secondItem="gLq-LC-1DW" secondAttribute="bottom" constant="20" id="5nY-Ab-h4i"/>
+                            <constraint firstItem="spC-vK-5xG" firstAttribute="leading" secondItem="3kn-Ib-UbN" secondAttribute="leading" id="4Hp-Ic-9wb"/>
+                            <constraint firstItem="spC-vK-5xG" firstAttribute="width" secondItem="3kn-Ib-UbN" secondAttribute="width" id="AdG-Lh-SOh"/>
+                            <constraint firstItem="3kn-Ib-UbN" firstAttribute="top" secondItem="66f-L7-8Q1" secondAttribute="bottom" constant="20" id="BNB-X6-7US"/>
+                            <constraint firstItem="spC-vK-5xG" firstAttribute="width" secondItem="3kn-Ib-UbN" secondAttribute="width" id="CEt-9f-CFt"/>
                             <constraint firstItem="gLq-LC-1DW" firstAttribute="leading" secondItem="xfQ-UW-2PM" secondAttribute="leadingMargin" id="CMp-ws-gwc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gLq-LC-1DW" secondAttribute="trailing" id="Nds-q3-NFK"/>
                             <constraint firstItem="3kn-Ib-UbN" firstAttribute="leading" secondItem="xfQ-UW-2PM" secondAttribute="leadingMargin" id="TKu-lq-OPX"/>
+                            <constraint firstItem="1pj-rJ-FIg" firstAttribute="top" secondItem="gLq-LC-1DW" secondAttribute="bottom" constant="20" id="W7R-cp-mtZ"/>
+                            <constraint firstItem="spC-vK-5xG" firstAttribute="bottom" secondItem="3kn-Ib-UbN" secondAttribute="bottom" id="d86-wh-nzT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3kn-Ib-UbN" secondAttribute="trailing" id="lFt-xZ-si7"/>
-                            <constraint firstItem="3kn-Ib-UbN" firstAttribute="top" secondItem="66f-L7-8Q1" secondAttribute="bottom" constant="20" id="uYi-bm-dGa"/>
                             <constraint firstItem="gLq-LC-1DW" firstAttribute="top" secondItem="3kn-Ib-UbN" secondAttribute="bottom" constant="17" id="wEb-30-vQg"/>
+                            <constraint firstItem="spC-vK-5xG" firstAttribute="trailing" secondItem="3kn-Ib-UbN" secondAttribute="trailing" id="xo2-7y-11C"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bi9-hB-Ky6">
                         <barButtonItem key="leftBarButtonItem" image="icon-menu" id="GWo-R8-ETb"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addressLabel" destination="mKi-d7-yIU" id="4to-lF-h04"/>
                         <outlet property="btnPicker" destination="Uk3-Ct-8wq" id="Jgv-y9-K8X"/>
                         <outlet property="btnSideMenu" destination="GWo-R8-ETb" id="f8K-fV-5Qt"/>
+                        <outlet property="categoryLabel" destination="aLc-0x-tb8" id="3jw-bk-x77"/>
+                        <outlet property="informationShowCard" destination="spC-vK-5xG" id="XAg-rp-uyH"/>
                         <outlet property="mapView" destination="3kn-Ib-UbN" id="TNv-t3-kFx"/>
+                        <outlet property="minsLabel" destination="FoW-kj-od2" id="r9g-Kp-EwK"/>
+                        <outlet property="nameLabel" destination="Agb-lv-WSj" id="BRo-GZ-2SE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HAK-TJ-2Rc" userLabel="First Responder" sceneMemberID="firstResponder"/>

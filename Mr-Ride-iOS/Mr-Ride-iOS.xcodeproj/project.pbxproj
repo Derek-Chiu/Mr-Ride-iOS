@@ -38,6 +38,8 @@
 		65BB95461CF5AB11000B1748 /* CellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */; };
 		65C2EC771CF7FCCA00B59893 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C2EC761CF7FCCA00B59893 /* HistoryViewController.swift */; };
 		65C6BFED1D07EC8E00D58D15 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C6BFEC1D07EC8E00D58D15 /* LoginViewController.swift */; };
+		65D50D4E1D1D149400176E92 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D50D4D1D1D149400176E92 /* Station.swift */; };
+		65D50D501D1E710500176E92 /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D50D4F1D1E710500176E92 /* CustomPointAnnotation.swift */; };
 		65E4B5C31CF2A42F00EC288C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */; };
 		65E4B5C51CF2A42F00EC288C /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5C41CF2A42F00EC288C /* HomePageViewController.swift */; };
 		65E4B5C81CF2A42F00EC288C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65E4B5C61CF2A42F00EC288C /* Main.storyboard */; };
@@ -97,6 +99,8 @@
 		65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTableViewCell.swift; sourceTree = "<group>"; };
 		65C2EC761CF7FCCA00B59893 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		65C6BFEC1D07EC8E00D58D15 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		65D50D4D1D1D149400176E92 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		65D50D4F1D1E710500176E92 /* CustomPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPointAnnotation.swift; sourceTree = "<group>"; };
 		65E4B5BF1CF2A42F00EC288C /* Mr-Ride-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mr-Ride-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65E4B5C41CF2A42F00EC288C /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
@@ -160,8 +164,11 @@
 		6546F0741CFEC87500F3CB85 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				655C68321D19011000941C68 /* Toilet.swift */,
 				6546F0751CFEC89000F3CB85 /* LocationRecorder.swift */,
 				655537351D1280B6004848F7 /* HttpHelper.swift */,
+				65D50D4D1D1D149400176E92 /* Station.swift */,
+				65D50D4F1D1E710500176E92 /* CustomPointAnnotation.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -209,7 +216,6 @@
 				65E4B5D71CF2A4FF00EC288C /* Controller */,
 				659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */,
 				659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */,
-				655C68321D19011000941C68 /* Toilet.swift */,
 				659096121D017C4800054FA9 /* Run.swift */,
 				659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */,
 				659096141D017C4800054FA9 /* Location.swift */,
@@ -407,8 +413,10 @@
 				65C6BFED1D07EC8E00D58D15 /* LoginViewController.swift in Sources */,
 				65E4B5E51CF2F67C00EC288C /* Font.swift in Sources */,
 				65C2EC771CF7FCCA00B59893 /* HistoryViewController.swift in Sources */,
+				65D50D501D1E710500176E92 /* CustomPointAnnotation.swift in Sources */,
 				6546F0731CFE8B2200F3CB85 /* MapViewController.swift in Sources */,
 				65E4B5DD1CF2E57500EC288C /* SWRevealViewController.m in Sources */,
+				65D50D4E1D1D149400176E92 /* Station.swift in Sources */,
 				6546F0761CFEC89000F3CB85 /* LocationRecorder.swift in Sources */,
 				65BB95461CF5AB11000B1748 /* CellTableViewCell.swift in Sources */,
 				651283491D05186600A0B657 /* HistoryTableViewController.swift in Sources */,

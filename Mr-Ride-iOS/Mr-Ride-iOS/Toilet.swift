@@ -10,6 +10,7 @@ import Foundation
 
 struct Toilet {
     var name: String
+    var category: String
     var address: String
     var latitude: Double
     var longitude: Double

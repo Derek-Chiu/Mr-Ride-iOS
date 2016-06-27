@@ -75,9 +75,12 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         btnDone.addTarget(self, action: #selector(dismissSelf), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func dismissSelf() {
+    func dismissSelf(sender: UIButton) {
         dismissViewControllerAnimated(true, completion: nil)
-        pickerDelegate?.pickerselected(currentSelected)
+        
+        if sender.titleLabel?.text == "Done" {
+            pickerDelegate?.pickerselected(currentSelected)
+        }
     }
 
 }

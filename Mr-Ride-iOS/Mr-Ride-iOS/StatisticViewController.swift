@@ -28,7 +28,6 @@ class StatisticViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBackground()
         setupButton()
         setupMap()
     }
@@ -39,6 +38,7 @@ class StatisticViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        setupBackground()
         setupData()
     }
 

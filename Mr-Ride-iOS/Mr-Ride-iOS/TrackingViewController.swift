@@ -41,7 +41,6 @@ class TrackingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMap()
-        setupBackground()
         setupDistance()
         setupSpeed()
         setupCalories()
@@ -57,6 +56,7 @@ class TrackingViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         print("viewDidDisappear \(self.dynamicType)")
+        setupBackground()
     }
     
     deinit {

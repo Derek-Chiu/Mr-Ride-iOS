@@ -208,8 +208,11 @@ extension InformationViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let pinView = CustomAnnotationView()
-        pinView.setCustomImage(icon)
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier("CustomAnnotationView") as? CustomAnnotationView
+        if pinView == nil {
+            pinView = CustomAnnotationView(annotation: annotation, reuseIdentifier: "CustomAnnotationView")
+            pinView!.setCustomImage(icon)
+        }
         return pinView
     }
     

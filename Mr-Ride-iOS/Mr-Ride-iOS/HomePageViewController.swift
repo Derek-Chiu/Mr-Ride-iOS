@@ -17,6 +17,10 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
     @IBOutlet weak var labelAverageSpeed: UILabel!
     @IBOutlet weak var chartView: LineChartView!
     
+    var totalDistance = 0.0
+    var totalRun = 0
+    var avgSpeed = 0.0
+    var chartData = [Double]()
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -31,9 +35,25 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         setupBackground()
         setupNavigationItem()
         setupRevealViewController()
-        setupTotalDistance()
+        setupData()
+        setupLabels()
         setupButton()
         setupChart()
+    }
+    
+    
+    func setupData() {
+        if LocationRecorder.getInstance().fetchData() != nil {
+            let allRecord = LocationRecorder.getInstance().fetchData()!
+            totalRun = allRecord.count
+            
+            for data in allRecord {
+                totalDistance = totalDistance + Double(data.distance!)
+            }
+            totalDistance = totalDistance / 1000
+            avgSpeed = totalDistance / Double(totalRun)
+        }
+        
     }
     
     func setupBackground() {
@@ -57,11 +77,15 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: UIBarMetrics.Default)
     }
     
-    func setupTotalDistance() {
+    func setupLabels() {
         labelTotalDistance.layer.shadowColor = UIColor.mrDarkSlateBlueColor().CGColor
         labelTotalDistance.layer.shadowRadius = 1.0
         labelTotalDistance.layer.shadowOpacity = 0.5
         labelTotalDistance.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        labelTotalDistance.text = String(format: "%.1f km", totalDistance)
+        
+        labelTotalCount.text = String(totalRun)
+        labelAverageSpeed.text = String(format: "%.1f km/h", avgSpeed)
     }
     
     func setupButton() {
@@ -153,6 +177,9 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
     func dismissVC() {
         // after presented viewcontroller dismissed
         for subview in view.subviews where subview is UILabel { subview.hidden = false }
+        setupData()
+        setupLabels()
+        setupChart()
     }
 
 }

@@ -6,5 +6,7 @@ target 'Mr-Ride-iOS' do
     pod ‘Charts’
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
-    pod ‘Alamofire’, ‘3.4.1’
+    pod 'Alamofire', '3.4.1'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end

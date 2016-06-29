@@ -19,5 +19,5 @@ struct Station {
     var longitude: Double
     var bikeleft: Int
     var bikeSpace: Int
-    var available: Bool
+    var isAvailable: Bool
 }

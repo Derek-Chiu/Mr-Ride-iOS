@@ -14,5 +14,5 @@ class CustomPointAnnotation: MKPointAnnotation {
     var name: String = ""
     var location: String = ""
     var category: String = ""
-
+    var isAvaliable = true
 }

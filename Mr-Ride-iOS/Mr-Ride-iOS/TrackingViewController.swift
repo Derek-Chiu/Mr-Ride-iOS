@@ -41,12 +41,12 @@ class TrackingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMap()
-        setupBackground()
         setupDistance()
         setupSpeed()
         setupCalories()
         setupTimer()
         setupButton()
+        setupBackground()
     }
     
     override func viewWillDisappear(animated: Bool) {

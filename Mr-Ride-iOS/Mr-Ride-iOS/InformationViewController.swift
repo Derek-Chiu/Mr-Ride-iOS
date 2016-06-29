@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class InformationViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
@@ -42,7 +43,7 @@ class InformationViewController: UIViewController, UIViewControllerTransitioning
             switch currentSelected {
             case .UbikeStation:
                 return UIImage(named: "icon-station")!
-            default:
+            case .Toliet:
                 return UIImage(named: "icon-toilet")!
             }
         }
@@ -55,7 +56,9 @@ class InformationViewController: UIViewController, UIViewControllerTransitioning
         setupRevealViewController()
         setupButton()
         setupMapView()
+        setupLocationManager()
         informationShowCard.hidden = true
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -122,6 +125,7 @@ extension InformationViewController: PickerDelegate {
         case .UbikeStation:
             currentSelected = selected
             btnPicker.titleLabel?.text = "Ubike Station"
+           
             HttpHelper.getInstance().getStations() { [weak weakSelf = self] in
                 weakSelf?.loadingFinished()
             }
@@ -133,7 +137,18 @@ extension InformationViewController: PickerDelegate {
             
             currentSelected = selected
             btnPicker.titleLabel?.text = "Toilet"
-            HttpHelper.getInstance().getToiletRiverSide() { [weak weakSelf = self] in
+            // check data in coredata
+            if ToiletRecorder.getInstance().fetchData()?.count != 0 {
+                print("yes item inside")
+                toiletList = ToiletRecorder.getInstance().fetchData()!
+                showMarkOnMap()
+                return
+            }
+            
+            // no data in coredata then fire http GET
+            print("no item")
+            ToiletRecorder.getInstance().deleteData()
+            HttpHelper.getInstance().getToilet() { [weak weakSelf = self] in
                 weakSelf?.loadingFinished()
             }
             
@@ -142,13 +157,9 @@ extension InformationViewController: PickerDelegate {
     
     
     func loadingFinished() {
-        
-        mapView.removeAnnotations(annotationsOnMap)
-        annotationsOnMap.removeAll()
-        
         switch currentSelected {
         case .Toliet:
-            toiletList = HttpHelper.getInstance().getToiletList()
+            toiletList = ToiletRecorder.getInstance().fetchData()!
             showMarkOnMap()
             
         case .UbikeStation:
@@ -163,8 +174,12 @@ extension InformationViewController: PickerDelegate {
 extension InformationViewController: MKMapViewDelegate {
     
     //    func showMarkOnMap(latitude: Double, longtitude: Double) {
+    
     func showMarkOnMap() {
-        
+
+        mapView.removeAnnotations(annotationsOnMap)
+        annotationsOnMap.removeAll()
+    
         switch currentSelected {
         case .UbikeStation:
             for station in stationList {
@@ -175,16 +190,17 @@ extension InformationViewController: MKMapViewDelegate {
                 annotation.location = station.location
                 annotation.title = String(station.bikeleft)
                 annotation.subtitle = String(station.bikeSpace)
+                annotation.isAvaliable = station.isAvailable
                 annotationsOnMap.append(annotation)
                 mapView.addAnnotation(annotation)
             }
         case .Toliet:
             for toilet in toiletList {
                 let annotation = CustomPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: toilet.latitude, longitude: toilet.longitude)
-                annotation.category = toilet.category
-                annotation.name = toilet.name
-                annotation.location = toilet.address
+                annotation.coordinate = CLLocationCoordinate2D(latitude: Double(toilet.latitude!), longitude: Double(toilet.longitude!))
+                annotation.category = toilet.category == nil ? "" : toilet.category!
+                annotation.name = toilet.name == nil ? "" : toilet.name!
+                annotation.location = toilet.address == nil ? "" : toilet.address!
                 annotationsOnMap.append(annotation)
                 mapView.addAnnotation(annotation)
             }
@@ -208,8 +224,25 @@ extension InformationViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let pinView = CustomAnnotationView()
-        pinView.setCustomImage(icon)
+        
+        if annotation.isKindOfClass(MKUserLocation) {
+            return nil
+        }
+        
+        var identifier = ""
+        switch currentSelected {
+        case .UbikeStation:
+            identifier = "UbikeAnnotationView"
+        case .Toliet:
+            identifier = "ToiletAnnotationView"
+        }
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? CustomAnnotationView
+        
+        if pinView == nil {
+            pinView = CustomAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            pinView?.setCustomImage(icon)
+        }
         return pinView
     }
     
@@ -218,6 +251,21 @@ extension InformationViewController: MKMapViewDelegate {
 
 extension InformationViewController: CLLocationManagerDelegate {
     
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        mapView.showsUserLocation = true
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last! as CLLocation
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        mapView.setRegion(region, animated: true)
+    }
 }
 
 class HalfSizePresentationController : UIPresentationController {

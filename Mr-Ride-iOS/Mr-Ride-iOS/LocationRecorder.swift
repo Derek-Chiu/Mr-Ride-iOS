@@ -18,7 +18,6 @@ class LocationRecorder {
             let results = try moc.executeFetchRequest(request) as! [Run]
             for result in results {
                 if result.id == runID {
-//                    print(result.location)
                     return result
                 }
             }

@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 import FBSDKCoreKit
+import Fabric
+import Crashlytics
+
 
 let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
@@ -22,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 //        print("didFinishLaunchingWithOptions")
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        Fabric.with([Crashlytics.self])
         return true
     }
 

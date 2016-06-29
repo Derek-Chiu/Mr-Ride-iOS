@@ -26,9 +26,7 @@ class CustomAnnotationView: MKAnnotationView {
         
         let imageView = UIImageView.init(image: originImage)
         imageView.center = self.center
-        
         self.addSubview(imageView)
-        
     }
     
 }

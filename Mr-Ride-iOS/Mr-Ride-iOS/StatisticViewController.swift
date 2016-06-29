@@ -34,11 +34,11 @@ class StatisticViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setupBackground()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        setupBackground()
         setupData()
     }
 

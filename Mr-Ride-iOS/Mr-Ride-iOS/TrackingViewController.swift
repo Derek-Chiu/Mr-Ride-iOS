@@ -46,6 +46,7 @@ class TrackingViewController: UIViewController {
         setupCalories()
         setupTimer()
         setupButton()
+        setupBackground()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -56,7 +57,6 @@ class TrackingViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         print("viewDidDisappear \(self.dynamicType)")
-        setupBackground()
     }
     
     deinit {

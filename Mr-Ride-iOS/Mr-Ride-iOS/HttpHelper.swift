@@ -16,7 +16,6 @@ class HttpHelper {
     
     typealias CompletionHandler = () -> Void
     
-    var toiletList = [Toilet]()
     var stationList = [Station]()
     
     func getToilet(completion: CompletionHandler) {
@@ -80,15 +79,18 @@ class HttpHelper {
                         print("casting")
                         continue
                     }
-                    let toilet = Toilet(name: name, category: "ddddd", address: address, latitude: latitude, longitude: longitude)
-                    self.toiletList.append(toilet)
+//                    let toilet = Toilet(name: name, category: "ddddd", address: address, latitude: latitude, longitude: longitude)
+//                    self.toiletList.append(toilet)
+                    ToiletRecorder.getInstance().writeData(category: "ddddd", name: name, address: address, lat: latitude, lng: longitude)
                 }
 
                 
                 dispatch_async(dispatch_get_main_queue()){
-                
-                    completion()
+//
+//                    completion()
+                self.getToiletRiverSide(completion)
                 }
+        
         }
         
     }
@@ -150,8 +152,9 @@ class HttpHelper {
                         print("casting")
                         continue
                     }
-                    let toilet = Toilet(name: name, category: "River Side", address: "", latitude: latitude, longitude: longitude)
-                    self.toiletList.append(toilet)
+//                    let toilet = Toilet(name: name, category: "River Side", address: "", latitude: latitude, longitude: longitude)
+//                    self.toiletList.append(toilet)
+                    ToiletRecorder.getInstance().writeData(category: "River Side", name: name, address: "", lat: latitude, lng: longitude)
                 }
                 
                 
@@ -290,12 +293,16 @@ class HttpHelper {
                         continue
                     }
                     
+                    guard let act = Int(stationAvailability) else {
+                        continue
+                    }
+                    
                     var isAvailable = true
                     
-                    switch stationAvailability
+                    switch act
                     {
-                    case "0": isAvailable = false
-                    case "1": isAvailable = true
+                    case 0: isAvailable = false
+                    case 1: isAvailable = true
                     default: isAvailable = true
                     }
                     
@@ -306,7 +313,7 @@ class HttpHelper {
                                             longitude: longitude,
                                             bikeleft: bikeLeft,
                                             bikeSpace: bikeSpace,
-                                            available: isAvailable)
+                                            isAvailable: isAvailable)
                     self.stationList.append(station)
                 }
                 
@@ -318,10 +325,6 @@ class HttpHelper {
         }
     }
     
-    
-    func getToiletList() -> [Toilet] {
-        return toiletList
-    }
     
     func getStationList() -> [Station] {
         return stationList

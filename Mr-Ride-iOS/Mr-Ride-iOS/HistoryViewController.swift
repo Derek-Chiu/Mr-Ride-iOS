@@ -31,13 +31,14 @@ class HistoryViewController: UIViewController, ChartViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupChartView()
         setupBackground()
         setupNavigationItem()
         setupButton()
         setupRevealViewController()
         setupHistoryTable()
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "history", action: "view_in_history")
     }
 
     override func didReceiveMemoryWarning() {
@@ -155,6 +156,7 @@ extension HistoryViewController: CellSelectedDelegate {
     func cellDidSelected(runID: String) {
         let statisticViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticViewController") as! StatisticViewController
         statisticViewController.runID = runID
+        TrackingActionHelper.getInstance().trackingAction(viewName: "history", action: "select_record_result_in_history")
         self.navigationController?.pushViewController(statisticViewController, animated: true)
     }
 }

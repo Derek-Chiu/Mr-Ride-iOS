@@ -39,6 +39,7 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         setupLabels()
         setupButton()
         setupChart()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "view_in_home")
     }
     
     
@@ -105,12 +106,14 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         trackingViewController.dismissDelegate = self
         for subview in view.subviews where subview is UILabel { subview.hidden = true }
         presentViewController(NaiVC, animated: true, completion: nil)
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "select_ride_in_home")
     }
     
     func setupRevealViewController() {
         btnSideMenu.target = self.revealViewController()
         btnSideMenu.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "select_menu_in_home")
     }
     
     func setupChart()  {

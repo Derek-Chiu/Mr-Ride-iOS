@@ -38,6 +38,8 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         pickerView.dataSource = self
         pickerView.backgroundColor = UIColor.whiteColor()
         setupButton()
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "look_for_picker", action: "view_in_look_for_picker")
         // Do any additional setup after loading the view.
     }
     
@@ -76,11 +78,14 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func dismissSelf(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
         
         if sender.titleLabel?.text == "Done" {
             pickerDelegate?.pickerselected(currentSelected)
+            TrackingActionHelper.getInstance().trackingAction(viewName: "look_for_picker", action: "select_done_in_look_for_picker")
+        } else {
+            TrackingActionHelper.getInstance().trackingAction(viewName: "look_for_picker", action: "select_cancel_in_look_for_picker")
         }
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
 }

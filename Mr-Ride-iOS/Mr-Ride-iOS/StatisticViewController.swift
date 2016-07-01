@@ -30,6 +30,7 @@ class StatisticViewController: UIViewController {
         super.viewDidLoad()
         setupButton()
         setupMap()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_result", action: "view_in_record_result")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,6 +111,8 @@ class StatisticViewController: UIViewController {
     }
     
     func dismissSelf(sender: AnyObject) {
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_result", action: "select_close_in_record_result")
         mapViewController.removeFromParentViewController()
         if dismissDelegate != nil {
             dismissViewControllerAnimated(true, completion: nil)

@@ -47,11 +47,13 @@ class TrackingViewController: UIViewController {
         setupTimer()
         setupButton()
         setupBackground()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "view_in_record_creating")
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         print("viewWillDisappear \(self.dynamicType)")
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -157,6 +159,8 @@ class TrackingViewController: UIViewController {
                 },completion: { (isFinished) in
                     self.addIconCornerRadiusAnimation( 10, to: (self.middleIcon.frame.width) / 2, duration: 0.3)
             })
+            
+            TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_pause_in_record_creating")
 
         } else {
             isRidding = true
@@ -170,6 +174,8 @@ class TrackingViewController: UIViewController {
                 },completion: { (isFinished) in
                     self.addIconCornerRadiusAnimation( (self.middleIcon.frame.width) / 2, to: 10, duration: 0.3)
             })
+            
+            TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_start_in_record_creating")
         }
         
     }
@@ -180,6 +186,8 @@ class TrackingViewController: UIViewController {
         mapViewController.locationManager.stopUpdatingLocation()
         dismissDelegate?.dismissVC()
         dismissViewControllerAnimated(true, completion: nil)
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_cancel_in_record_creating")
 //        dismissDelegate = nil
     }
     
@@ -193,6 +201,8 @@ class TrackingViewController: UIViewController {
         statisticViewController.dismissDelegate = dismissDelegate
         navigationController?.pushViewController(statisticViewController, animated: true)
         mapViewController.locationManager.stopUpdatingLocation()
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_finish_in_record_creating")
     }
     
     

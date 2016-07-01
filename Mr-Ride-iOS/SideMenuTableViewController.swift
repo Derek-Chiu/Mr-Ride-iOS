@@ -35,6 +35,7 @@ class SideMenuTableViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         tableView.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: .None)
+        TrackingActionHelper.getInstance().trackingAction(viewName: "menu", action: "view_in_menu")
     }
     
     // MARK: - Table view data source
@@ -70,17 +71,20 @@ class SideMenuTableViewController: UITableViewController {
         if let page = PageSelected(rawValue: indexPath.row) {
             switch page {
             case .HomePage:
+                TrackingActionHelper.getInstance().trackingAction(viewName: "menu", action: "select_ride_in_menu")
                 let homeNavigationController = storyboard?.instantiateViewControllerWithIdentifier("HomeNavigationController") as! UINavigationController
                 
                 let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: homeNavigationController)
                 segue.perform()
                 
             case .HistroyPage:
+                TrackingActionHelper.getInstance().trackingAction(viewName: "menu", action: "select_history_in_menu")
                 let historyNavigationController = storyboard?.instantiateViewControllerWithIdentifier("HistoryNavigationController") as! UINavigationController
                 let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: historyNavigationController)
                 segue.perform()
                 
             case .MapPage:
+                TrackingActionHelper.getInstance().trackingAction(viewName: "menu", action: "select_map_in_menu")
                 let informationNavigationController = storyboard?.instantiateViewControllerWithIdentifier("InformationNavigationController") as! UINavigationController
                 let segue = SWRevealViewControllerSeguePushController.init(identifier: nil, source: self, destination: informationNavigationController)
                 segue.perform()

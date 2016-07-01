@@ -11,7 +11,8 @@ import CoreData
 import FBSDKCoreKit
 import Fabric
 import Crashlytics
-
+import Amplitude_iOS
+import Google
 
 let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
@@ -26,6 +27,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        print("didFinishLaunchingWithOptions")
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
+        
+        Amplitude.instance().initializeApiKey("e5cad9fa3dae91e16f807cb9166da691")
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "app_launching")
+        
+        // Configure tracker from GoogleService-Info.plist.
+        var configureError:NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        // Optional: configure GAI options.
+        let gai = GAI.sharedInstance()
+        gai.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        
+
+        
         return true
     }
 

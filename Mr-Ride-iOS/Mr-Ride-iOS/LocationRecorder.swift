@@ -14,17 +14,16 @@ class LocationRecorder {
     
     func getDataWithID(runID: String) -> Run? {
         let request = NSFetchRequest(entityName: "Run")
-        do {
-            let results = try moc.executeFetchRequest(request) as! [Run]
-            for result in results {
-                if result.id == runID {
-                    return result
-                }
-            }
-        } catch let error as NSError {
-            print(error)
-        }
+        request.predicate = NSPredicate(format: "id == %@", runID)
+                
+        if let result = (try? moc.executeFetchRequest(request))?.first as? Run {
+            return result }
         return nil
+
+    }
+    
+    func getCount() -> Int {
+        return moc.countForFetchRequest(NSFetchRequest(entityName: "Run"), error: nil)
     }
     
     func fetchData() -> [Run]? {

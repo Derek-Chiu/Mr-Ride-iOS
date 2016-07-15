@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -22,20 +21,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="330" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.22 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qa-dg-mfj">
-                        <rect key="frame" x="82" y="14" width="101" height="32"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.22km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qa-dg-mfj">
+                        <rect key="frame" x="57" y="14" width="87" height="32"/>
                         <fontDescription key="fontDescription" name="RobotoMono-Light" family="Roboto Mono" pointSize="24"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gwx-Ra-eTs">
-                        <rect key="frame" x="201" y="14" width="116" height="32"/>
+                        <rect key="frame" x="206" y="14" width="116" height="32"/>
                         <fontDescription key="fontDescription" name="RobotoMono-Light" family="Roboto Mono" pointSize="24"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGg-L6-Pf3">
-                        <rect key="frame" x="13" y="14" width="29" height="32"/>
+                        <rect key="frame" x="8" y="14" width="29" height="32"/>
                         <fontDescription key="fontDescription" name="RobotoMono-Light" family="Roboto Mono" pointSize="24"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -44,11 +43,11 @@
                 <color key="backgroundColor" red="0.054901960780000002" green="0.20784313730000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="9qa-dg-mfj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4eG-D3-0gR"/>
-                    <constraint firstItem="9qa-dg-mfj" firstAttribute="leading" secondItem="pGg-L6-Pf3" secondAttribute="trailing" constant="40" id="Ih8-Tu-Sml"/>
-                    <constraint firstItem="pGg-L6-Pf3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="Tsb-pl-eQR"/>
+                    <constraint firstItem="9qa-dg-mfj" firstAttribute="leading" secondItem="pGg-L6-Pf3" secondAttribute="trailing" constant="20" id="Ih8-Tu-Sml"/>
+                    <constraint firstItem="pGg-L6-Pf3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Tsb-pl-eQR"/>
                     <constraint firstItem="pGg-L6-Pf3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UBE-Ru-a7N"/>
                     <constraint firstItem="Gwx-Ra-eTs" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="XoQ-nK-dvZ"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Gwx-Ra-eTs" secondAttribute="trailing" constant="5" id="yzU-na-ZMv"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Gwx-Ra-eTs" secondAttribute="trailing" id="yzU-na-ZMv"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

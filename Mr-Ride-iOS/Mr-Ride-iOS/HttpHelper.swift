@@ -24,7 +24,7 @@ class HttpHelper {
             "http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=008ed7cf-2340-4bc4-89b0-e258a5573be2", parameters: nil).responseJSON { reponse in
                 //                            print(reponse.request)
                 print(reponse.response?.statusCode) //status is here (200...etc)
-                //                            print(reponse.data)
+                print(reponse.data)
                 print(reponse.result.isSuccess) //SUCCESS
                 
                 
@@ -79,9 +79,15 @@ class HttpHelper {
                         print("casting")
                         continue
                     }
+                    
+                    guard let cate = data["類別"]  else {
+                        // error handleing
+                        print("類別")
+                        continue
+                    }
 //                    let toilet = Toilet(name: name, category: "ddddd", address: address, latitude: latitude, longitude: longitude)
 //                    self.toiletList.append(toilet)
-                    ToiletRecorder.getInstance().writeData(category: "ddddd", name: name, address: address, lat: latitude, lng: longitude)
+                    ToiletRecorder.getInstance().writeData(category: cate, name: name, address: address, lat: latitude, lng: longitude)
                 }
 
                 
@@ -154,7 +160,7 @@ class HttpHelper {
                     }
 //                    let toilet = Toilet(name: name, category: "River Side", address: "", latitude: latitude, longitude: longitude)
 //                    self.toiletList.append(toilet)
-                    ToiletRecorder.getInstance().writeData(category: "River Side", name: name, address: "", lat: latitude, lng: longitude)
+                    ToiletRecorder.getInstance().writeData(category: "河濱", name: name, address: "", lat: latitude, lng: longitude)
                 }
                 
                 

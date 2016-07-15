@@ -29,11 +29,13 @@ class TrackingViewController: UIViewController {
     // temp
     var managedObjectContext: NSManagedObjectContext?
     
+    var calorieCalcultor = CalorieCalculator()
     var isRidding = false
     var btnCancel: UIBarButtonItem?
     var btnFinish: UIBarButtonItem?
     var counter = 0.0
     var timer = NSTimer()
+    var calories = 0.0
     let mapViewController = MapViewController()
     
     let middleIcon = UIView()
@@ -47,11 +49,13 @@ class TrackingViewController: UIViewController {
         setupTimer()
         setupButton()
         setupBackground()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "view_in_record_creating")
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         print("viewWillDisappear \(self.dynamicType)")
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -84,7 +88,8 @@ class TrackingViewController: UIViewController {
     }
     
     func setupCalories() {
-        labelCalories.text = "Calories so far"
+        calories = calorieCalcultor.kiloCalorieBurned(.Bike, speed: (mapViewController.distance / 1000) / (counter / 3600) , weight: 60.0, time: counter / 3600)
+        labelCalories.text = String(format: "%.2f Kcal", calories)
     }
     
     func setupTimer() {
@@ -128,6 +133,9 @@ class TrackingViewController: UIViewController {
         navigationItem.rightBarButtonItem = btnFinish
         navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+        
+        btnFinish?.enabled = false
+        btnFinish?.tintColor = UIColor.clearColor()
     }
     
     func setupMap() {
@@ -157,6 +165,8 @@ class TrackingViewController: UIViewController {
                 },completion: { (isFinished) in
                     self.addIconCornerRadiusAnimation( 10, to: (self.middleIcon.frame.width) / 2, duration: 0.3)
             })
+            
+            TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_pause_in_record_creating")
 
         } else {
             isRidding = true
@@ -170,6 +180,11 @@ class TrackingViewController: UIViewController {
                 },completion: { (isFinished) in
                     self.addIconCornerRadiusAnimation( (self.middleIcon.frame.width) / 2, to: 10, duration: 0.3)
             })
+            
+            btnFinish?.enabled = true
+            btnFinish?.tintColor = UIColor.whiteColor()
+            
+            TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_start_in_record_creating")
         }
         
     }
@@ -180,6 +195,8 @@ class TrackingViewController: UIViewController {
         mapViewController.locationManager.stopUpdatingLocation()
         dismissDelegate?.dismissVC()
         dismissViewControllerAnimated(true, completion: nil)
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_cancel_in_record_creating")
 //        dismissDelegate = nil
     }
     
@@ -193,13 +210,15 @@ class TrackingViewController: UIViewController {
         statisticViewController.dismissDelegate = dismissDelegate
         navigationController?.pushViewController(statisticViewController, animated: true)
         mapViewController.locationManager.stopUpdatingLocation()
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_creating", action: "select_finish_in_record_creating")
     }
     
     
     func savedRun(runID: String) {
         
 //        let date = NSDate()
-        let days = -30.0
+        let days = -2.0
         let date = NSDate.init(timeIntervalSinceNow: 86400.00 * days)
         
         let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: moc) as! Run
@@ -208,6 +227,7 @@ class TrackingViewController: UIViewController {
         savedRun.during = counter
 //        savedRun.timestamp = NSDate()
         savedRun.timestamp = date
+        savedRun.calorie = calories
         // 2
         var savedLocations = [Location]()
         for location in mapViewController.locations {

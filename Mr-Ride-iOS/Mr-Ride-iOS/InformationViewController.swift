@@ -22,6 +22,7 @@ class InformationViewController: UIViewController, UIViewControllerTransitioning
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var minsLabel: UILabel!
     
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     var toiletList = [Toilet]()
     var stationList = [Station]()
@@ -57,8 +58,10 @@ class InformationViewController: UIViewController, UIViewControllerTransitioning
         setupButton()
         setupMapView()
         setupLocationManager()
+        pickerselected(currentSelected)
         informationShowCard.hidden = true
-        
+        indicatorView.color = UIColor.mrDenimBlueColor()
+        indicatorView.hidesWhenStopped = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -121,32 +124,32 @@ extension InformationViewController: PickerDelegate {
     
     func pickerselected(selected: PickerOption) {
         
+        informationShowCard.hidden = true
+        indicatorView.startAnimating()
         switch selected {
         case .UbikeStation:
             currentSelected = selected
-            btnPicker.titleLabel?.text = "Ubike Station"
-           
             HttpHelper.getInstance().getStations() { [weak weakSelf = self] in
                 weakSelf?.loadingFinished()
             }
-            
+            btnPicker.titleLabel?.text = "Ubike Station"
         case .Toliet:
             if currentSelected == selected {
+                indicatorView.stopAnimating()
                 return
             }
-            
             currentSelected = selected
             btnPicker.titleLabel?.text = "Toilet"
             // check data in coredata
             if ToiletRecorder.getInstance().fetchData()?.count != 0 {
-                print("yes item inside")
                 toiletList = ToiletRecorder.getInstance().fetchData()!
+                indicatorView.stopAnimating()
                 showMarkOnMap()
                 return
             }
             
             // no data in coredata then fire http GET
-            print("no item")
+//            print("no item")
             ToiletRecorder.getInstance().deleteData()
             HttpHelper.getInstance().getToilet() { [weak weakSelf = self] in
                 weakSelf?.loadingFinished()
@@ -166,6 +169,8 @@ extension InformationViewController: PickerDelegate {
             stationList = HttpHelper.getInstance().getStationList()
             showMarkOnMap()
         }
+        
+        indicatorView.stopAnimating()
     }
     
     
@@ -207,7 +212,6 @@ extension InformationViewController: MKMapViewDelegate {
         }
     }
     
-    
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         view.backgroundColor = UIColor.mrLightblueColor()
         informationShowCard.hidden = false
@@ -215,6 +219,7 @@ extension InformationViewController: MKMapViewDelegate {
             categoryLabel.text = annotation.category
             nameLabel.text = annotation.name
             addressLabel.text = annotation.location
+//            MKDirectionsRequest.
         }
     }
     

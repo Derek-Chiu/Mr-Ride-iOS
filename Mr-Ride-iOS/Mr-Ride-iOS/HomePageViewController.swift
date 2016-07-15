@@ -20,7 +20,9 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
     var totalDistance = 0.0
     var totalRun = 0
     var avgSpeed = 0.0
-    var chartData = [Double]()
+    var chartDataDistance = [Double]()
+    var chartDataDate = [String]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -38,18 +40,34 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         setupData()
         setupLabels()
         setupButton()
-        setupChart()
+        setupChartView()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "view_in_home")
     }
     
     
     func setupData() {
+        chartDataDistance = [Double]()
+        chartDataDate = [String]()
+        
         if LocationRecorder.getInstance().fetchData() != nil {
             let allRecord = LocationRecorder.getInstance().fetchData()!
             totalRun = allRecord.count
             
             for data in allRecord {
                 totalDistance = totalDistance + Double(data.distance!)
+                
+                if chartDataDistance.count > 49 {
+                    chartDataDistance.removeFirst()
+                    chartDataDate.removeFirst()
+                }
+                chartDataDistance.append(Double(data.distance!))
+                //            NSDateFormatter.stringFromDate(run.timestamp!)
+                chartDataDate.append("2016.1.1")
             }
+            setChart(chartDataDate, values: chartDataDistance)
+            
+//            setChart(allRecord, values: )
+
             totalDistance = totalDistance / 1000
             avgSpeed = totalDistance / Double(totalRun)
         }
@@ -105,42 +123,34 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         trackingViewController.dismissDelegate = self
         for subview in view.subviews where subview is UILabel { subview.hidden = true }
         presentViewController(NaiVC, animated: true, completion: nil)
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "select_ride_in_home")
     }
     
     func setupRevealViewController() {
         btnSideMenu.target = self.revealViewController()
         btnSideMenu.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "select_menu_in_home")
     }
     
-    func setupChart()  {
+    
+    func setupChartView() {
         chartView.backgroundColor = UIColor.mrLightblueColor()
         chartView.userInteractionEnabled = false
-        
         chartView.delegate = self
-        
         chartView.dragEnabled = false
         chartView.setScaleEnabled(false)
         chartView.pinchZoomEnabled = false
-        
         chartView.drawGridBackgroundEnabled = false
         chartView.rightAxis.enabled = false
         chartView.leftAxis.enabled = false
         chartView.xAxis.enabled = false
-        
         chartView.legend.enabled = false
-        
         chartView.minOffset = 0
-        
         chartView.descriptionText = ""
         
-        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
-        
-        setChart(months, values: unitsSold)
-        
     }
-    
+
     func setChart(dataPoints: [String], values: [Double]) {
         
         var dataEntries: [BarChartDataEntry] = []
@@ -157,7 +167,6 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         chartDataSet.setColor(UIColor.clearColor())
         chartDataSet.drawValuesEnabled = false
         
-        
         let color1 = UIColor.mrLightblueColor()
         let color2 = UIColor.mrPineGreen50Color()
         let gradient = CAGradientLayer()
@@ -167,11 +176,12 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         chartDataSet.drawFilledEnabled = true
         chartDataSet.fillAlpha = 0.5
         chartDataSet.fill = ChartFill.fillWithColor(UIColor.mrWaterBlueColor())
-
+        
         let chartData = LineChartData(xVals: dataPoints, dataSet: chartDataSet)
         chartView.data = chartData
         
     }
+
 
     // TrackingDelegate
     func dismissVC() {
@@ -179,7 +189,7 @@ class HomePageViewController: UIViewController, TrackingDelegate, ChartViewDeleg
         for subview in view.subviews where subview is UILabel { subview.hidden = false }
         setupData()
         setupLabels()
-        setupChart()
+        setupChartView()
     }
 
 }

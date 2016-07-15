@@ -18,9 +18,9 @@ class CustomAnnotationView: MKAnnotationView {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.mrCharcoalGreyColor().CGColor
         self.layer.shadowPath = UIBezierPath(roundedRect: self.frame, cornerRadius: self.frame.size.height / 2).CGPath
-        self.layer.shadowOffset = CGSize(width: 0, height: 2)
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowColor = UIColor.blackColor().CGColor
+//        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        self.layer.shadowOpacity = 0.5
+//        self.layer.shadowColor = UIColor.blackColor().CGColor
         self.layer.cornerRadius =  self.frame.size.height / 2
 //        self.clipsToBounds = true
         

@@ -30,30 +30,38 @@ class StatisticViewController: UIViewController {
         super.viewDidLoad()
         setupButton()
         setupMap()
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_result", action: "view_in_record_result")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         setupBackground()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         setupData()
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     func setupBackground() {
+        if dismissDelegate != nil {
+            view.backgroundColor = UIColor.clearColor()
+        } else {
+            view.backgroundColor = UIColor.mrLightblueColor()
+        }
+
         let color1 = UIColor.mrBlack60Color()
         let color2 = UIColor.mrBlack40Color()
         let gradient = CAGradientLayer()
         gradient.frame = self.view.frame
         gradient.colors = [color1.CGColor, color2.CGColor]
         view.layer.insertSublayer(gradient, atIndex: 0)
-        view.backgroundColor = UIColor.clearColor()
         view.opaque = false
         navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
         navigationController?.navigationBar.translucent = false
@@ -81,9 +89,9 @@ class StatisticViewController: UIViewController {
         // labelTotalDistance
         labelTotalDistance.text = String(format: "%.2f km", Double(run.distance!) / 1000)
         // labelAvgSpeed
-        labelAvgSpeed.text = String(format: "%.2f km / h", Double(run.distance!) * 3.6 / Double(run.during!) )
+        labelAvgSpeed.text = String(format: "%.2f km / h", Double(run.distance!) * 3.6 / Double(run.during!))
         // labelCalories
-        labelCalories.text = String(0)
+        labelCalories.text = String(format: "%.2f kCal", Double(run.calorie!))
         // labelTotalTime
         guard let counter = run.during as? Double else {
             return
@@ -96,7 +104,6 @@ class StatisticViewController: UIViewController {
         labelTotalTime.text = String(format: "%02d:%02d:%02d.%02d", hours, minutes, second, minuteSecond)
         
         mapViewController.loadMap(run)
-        
     }
     
     func setupMap() {
@@ -110,6 +117,8 @@ class StatisticViewController: UIViewController {
     }
     
     func dismissSelf(sender: AnyObject) {
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "record_result", action: "select_close_in_record_result")
         mapViewController.removeFromParentViewController()
         if dismissDelegate != nil {
             dismissViewControllerAnimated(true, completion: nil)

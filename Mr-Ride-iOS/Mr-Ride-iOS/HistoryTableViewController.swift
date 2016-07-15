@@ -121,7 +121,12 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // open statistic page
-        selectedDelegate?.cellDidSelected(allRecord[indexPath.row].id!)
+        print(indexPath.row)
+        guard let runID  = sectionByMonth[keyOfMonth[indexPath.section]]?[indexPath.row].id else {
+            return
+        }
+        
+        selectedDelegate?.cellDidSelected(runID)
     }
 
 }

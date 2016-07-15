@@ -28,13 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
         
-        Amplitude.instance().initializeApiKey("e5cad9fa3dae91e16f807cb9166da691")
-        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "app_launching")
         
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        TrackingActionHelper.getInstance().trackingAction(viewName: "home", action: "app_launching")
         
         // Optional: configure GAI options.
         let gai = GAI.sharedInstance()
@@ -42,6 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
         
 
+        
+        Amplitude.instance().initializeApiKey("e5cad9fa3dae91e16f807cb9166da691")
         
         return true
     }

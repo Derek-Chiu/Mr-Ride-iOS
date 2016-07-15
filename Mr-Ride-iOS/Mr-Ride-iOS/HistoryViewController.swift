@@ -32,13 +32,18 @@ class HistoryViewController: UIViewController, ChartViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChartView()
-        setupBackground()
         setupNavigationItem()
         setupButton()
         setupRevealViewController()
         setupHistoryTable()
         
         TrackingActionHelper.getInstance().trackingAction(viewName: "history", action: "view_in_history")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        setupBackground()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -157,8 +162,10 @@ extension HistoryViewController: CellSelectedDelegate {
         let statisticViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticViewController") as! StatisticViewController
         statisticViewController.runID = runID
         TrackingActionHelper.getInstance().trackingAction(viewName: "history", action: "select_record_result_in_history")
+        
         self.navigationController?.pushViewController(statisticViewController, animated: true)
-    }
+        
+        }
 }
 
 extension HistoryViewController: ChartDataSource {
@@ -166,7 +173,7 @@ extension HistoryViewController: ChartDataSource {
     func setupChartData(data: [Run]) {
         
         for run in data {
-            if chartDataDistance.count > 30 {
+            if chartDataDistance.count > 49 {
                 chartDataDistance.removeFirst()
                 chartDataDate.removeFirst()
             }
@@ -174,6 +181,7 @@ extension HistoryViewController: ChartDataSource {
 //            NSDateFormatter.stringFromDate(run.timestamp!)
             chartDataDate.append("2016.1.1")
         }
+        
         setChart(chartDataDate, values: chartDataDistance)
         
         //dynamic queue maintainess

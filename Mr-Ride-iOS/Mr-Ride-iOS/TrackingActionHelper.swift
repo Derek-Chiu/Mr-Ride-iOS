@@ -14,8 +14,8 @@ class TrackingActionHelper {
 
     
     func trackingAction(viewName viewName: String, action: String?) {
-        trackingActionToolGA(viewName, action: action)
-        trackingScreenToolAmplitute(name: viewName)
+//        trackingActionToolGA(viewName, action: action)
+//        trackingScreenToolAmplitute(name: viewName)
     }
     
     

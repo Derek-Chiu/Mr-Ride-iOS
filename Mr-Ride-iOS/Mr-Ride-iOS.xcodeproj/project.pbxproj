@@ -29,8 +29,6 @@
 		655BB5B81D1BBE2D00BC158D /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655BB5B71D1BBE2D00BC158D /* CustomAnnotationView.swift */; };
 		655DA9411D26475000350940 /* TrackingActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655DA9401D26475000350940 /* TrackingActionHelper.swift */; };
 		659095F01D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */; };
-		659096151D017C4800054FA9 /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */; };
-		659096161D017C4800054FA9 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096121D017C4800054FA9 /* Run.swift */; };
 		659096171D017C4800054FA9 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */; };
 		659096181D017C4800054FA9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659096141D017C4800054FA9 /* Location.swift */; };
 		65ABA3D41CF6D99D00171349 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65ABA3D31CF6D99D00171349 /* StatisticViewController.swift */; };
@@ -52,6 +50,9 @@
 		65E4B5E11CF2EB1B00EC288C /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5E01CF2EB1B00EC288C /* SideMenuTableViewController.swift */; };
 		65E4B5E31CF2F61800EC288C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5E21CF2F61800EC288C /* Color.swift */; };
 		65E4B5E51CF2F67C00EC288C /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E4B5E41CF2F67C00EC288C /* Font.swift */; };
+		65F5A0C71D2DEA43009189E8 /* CalorieCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5A0C61D2DEA43009189E8 /* CalorieCalculator.swift */; };
+		65F5A0CF1D2DED1F009189E8 /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5A0CE1D2DED1F009189E8 /* Run+CoreDataProperties.swift */; };
+		65F5A0D11D2DED52009189E8 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F5A0D01D2DED52009189E8 /* Run.swift */; };
 		E116A6A90892A2120592CB35 /* Pods_Mr_Ride_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA792BC3C141EB69740EE3A /* Pods_Mr_Ride_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -92,8 +93,6 @@
 		655BB5B71D1BBE2D00BC158D /* CustomAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		655DA9401D26475000350940 /* TrackingActionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingActionHelper.swift; sourceTree = "<group>"; };
 		659095EF1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Mr-Ride-iOS.xcdatamodel"; sourceTree = "<group>"; };
-		659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		659096121D017C4800054FA9 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		659096141D017C4800054FA9 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		65A67BF11D2173C8004193E2 /* Mr-Ride-iOS 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Mr-Ride-iOS 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -121,6 +120,9 @@
 		65E4B5E01CF2EB1B00EC288C /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideMenuTableViewController.swift; path = ../SideMenuTableViewController.swift; sourceTree = "<group>"; };
 		65E4B5E21CF2F61800EC288C /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		65E4B5E41CF2F67C00EC288C /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		65F5A0C61D2DEA43009189E8 /* CalorieCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalorieCalculator.swift; sourceTree = "<group>"; };
+		65F5A0CE1D2DED1F009189E8 /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		65F5A0D01D2DED52009189E8 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		E2D936620160CD52D9C9AB23 /* Pods-Mr-Ride-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mr-Ride-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mr-Ride-iOS/Pods-Mr-Ride-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		FAA792BC3C141EB69740EE3A /* Pods_Mr_Ride_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mr_Ride_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -172,6 +174,7 @@
 				65D50D4D1D1D149400176E92 /* Station.swift */,
 				65D50D4F1D1E710500176E92 /* CustomPointAnnotation.swift */,
 				655DA9401D26475000350940 /* TrackingActionHelper.swift */,
+				65F5A0C61D2DEA43009189E8 /* CalorieCalculator.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				65E4B5C11CF2A42F00EC288C /* Mr-Ride-iOS */,
+				65F5A0C51D2DE7A1009189E8 /* Supporting Files */,
 				65E4B5C01CF2A42F00EC288C /* Products */,
 				40E34B9A7D8BC91E912DCD0D /* Pods */,
 				DA3C56AE5F6DC60619051F7A /* Frameworks */,
@@ -209,22 +213,9 @@
 				6546F0741CFEC87500F3CB85 /* Model */,
 				6546F0711CFE820300F3CB85 /* Resources */,
 				65E4B5D91CF2E53C00EC288C /* SWRevealViewController */,
-				65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */,
 				65E4B5C61CF2A42F00EC288C /* Main.storyboard */,
-				65E4B5E41CF2F67C00EC288C /* Font.swift */,
-				65E4B5E21CF2F61800EC288C /* Color.swift */,
-				65E4B5CC1CF2A42F00EC288C /* Assets.xcassets */,
-				65E4B5CE1CF2A42F00EC288C /* LaunchScreen.storyboard */,
-				650DF9831D24FF8600DC6532 /* GoogleService-Info.plist */,
-				65E4B5D11CF2A42F00EC288C /* Info.plist */,
 				65E4B5D71CF2A4FF00EC288C /* Controller */,
-				659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */,
-				65D9D5831D22612600FFD836 /* Toilet+CoreDataProperties.swift */,
-				65D9D5841D22612600FFD836 /* Toilet.swift */,
-				659096111D017C4800054FA9 /* Run+CoreDataProperties.swift */,
-				659096121D017C4800054FA9 /* Run.swift */,
-				659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */,
-				659096141D017C4800054FA9 /* Location.swift */,
+				65E81B321D291AAC008593F9 /* Core Data */,
 			);
 			path = "Mr-Ride-iOS";
 			sourceTree = "<group>";
@@ -232,6 +223,7 @@
 		65E4B5D71CF2A4FF00EC288C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				65E4B5C21CF2A42F00EC288C /* AppDelegate.swift */,
 				65E4B5E01CF2EB1B00EC288C /* SideMenuTableViewController.swift */,
 				65E4B5C41CF2A42F00EC288C /* HomePageViewController.swift */,
 				65BB95451CF5AB11000B1748 /* CellTableViewCell.swift */,
@@ -258,6 +250,34 @@
 				65E4B5DC1CF2E57500EC288C /* SWRevealViewController.m */,
 			);
 			name = SWRevealViewController;
+			sourceTree = "<group>";
+		};
+		65E81B321D291AAC008593F9 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				659095EE1D01781100054FA9 /* Mr-Ride-iOS.xcdatamodeld */,
+				65D9D5831D22612600FFD836 /* Toilet+CoreDataProperties.swift */,
+				65F5A0D01D2DED52009189E8 /* Run.swift */,
+				65F5A0CE1D2DED1F009189E8 /* Run+CoreDataProperties.swift */,
+				65D9D5841D22612600FFD836 /* Toilet.swift */,
+				659096131D017C4800054FA9 /* Location+CoreDataProperties.swift */,
+				659096141D017C4800054FA9 /* Location.swift */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		65F5A0C51D2DE7A1009189E8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				65E4B5E41CF2F67C00EC288C /* Font.swift */,
+				65E4B5E21CF2F61800EC288C /* Color.swift */,
+				65E4B5CC1CF2A42F00EC288C /* Assets.xcassets */,
+				65E4B5CE1CF2A42F00EC288C /* LaunchScreen.storyboard */,
+				650DF9831D24FF8600DC6532 /* GoogleService-Info.plist */,
+				65E4B5D11CF2A42F00EC288C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			path = "Mr-Ride-iOS";
 			sourceTree = "<group>";
 		};
 		DA3C56AE5F6DC60619051F7A /* Frameworks */ = {
@@ -305,6 +325,7 @@
 				TargetAttributes = {
 					65E4B5BE1CF2A42F00EC288C = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = MTD2UXT6VG;
 					};
 				};
 			};
@@ -431,7 +452,6 @@
 				659096181D017C4800054FA9 /* Location.swift in Sources */,
 				65D9D5851D22612600FFD836 /* Toilet+CoreDataProperties.swift in Sources */,
 				65ABA3D41CF6D99D00171349 /* StatisticViewController.swift in Sources */,
-				659096151D017C4800054FA9 /* Run+CoreDataProperties.swift in Sources */,
 				65C6BFED1D07EC8E00D58D15 /* LoginViewController.swift in Sources */,
 				65E4B5E51CF2F67C00EC288C /* Font.swift in Sources */,
 				65C2EC771CF7FCCA00B59893 /* HistoryViewController.swift in Sources */,
@@ -442,10 +462,12 @@
 				6546F0761CFEC89000F3CB85 /* LocationRecorder.swift in Sources */,
 				65BB95461CF5AB11000B1748 /* CellTableViewCell.swift in Sources */,
 				651283491D05186600A0B657 /* HistoryTableViewController.swift in Sources */,
+				65F5A0D11D2DED52009189E8 /* Run.swift in Sources */,
 				6512834C1D05188300A0B657 /* HistoryTableViewCell.swift in Sources */,
+				65F5A0C71D2DEA43009189E8 /* CalorieCalculator.swift in Sources */,
 				65D9D57E1D22498100FFD836 /* ToiletRecorder.swift in Sources */,
+				65F5A0CF1D2DED1F009189E8 /* Run+CoreDataProperties.swift in Sources */,
 				65E4B5E11CF2EB1B00EC288C /* SideMenuTableViewController.swift in Sources */,
-				659096161D017C4800054FA9 /* Run.swift in Sources */,
 				65E4B5E31CF2F61800EC288C /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,6 +587,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Mr-Ride-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appworks-school-derekchiu.Mr-Ride-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -585,6 +608,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Mr-Ride-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appworks-school-derekchiu.Mr-Ride-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
